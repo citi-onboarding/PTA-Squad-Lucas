@@ -12,6 +12,7 @@ routes.patch("/user/:id", userController.update);
 
 routes.post("/patient",patientController.create);
 routes.get("/patient", patientController.get);
-routes.delete("patient/:id",patientController.delete);
+routes.get("/patient/:id",patientController.getById);
+routes.delete("/patient/:id",patientController.delete);
 routes.patch("/patient/:id",patientController.update);
 export default routes;

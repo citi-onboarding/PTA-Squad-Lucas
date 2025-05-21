@@ -28,7 +28,7 @@ class PatientController implements Crud{
         const { httpStatus, messageFromDelete } = await this.citi.deleteValue(id);
         return response.status(httpStatus).send({messageFromDelete});
     };
-    update = async (request:Request, respose: Response)=>{
+    update = async (request:Request, response: Response)=>{
         const { id } = request.params;
         const { name, tutorName, age, species} = request.body;
         
@@ -39,6 +39,12 @@ class PatientController implements Crud{
             updatedValues
         );
         return response.status(httpStatus).send({ messageFromUpdate })
+    };
+
+    getById = async (request:Request, response: Response) => {
+        const { id } = request.params;
+        const {httpStatus, value} = await this.citi.findById(id)
+        return response.status(httpStatus).send(value)
     };
 }
 
