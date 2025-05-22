@@ -1,11 +1,14 @@
-import topBar from "@/components/topBar/";
+import TopBar from "@/components/topBar/";
+
+type Props = {
+  page: React.ReactNode;
+};
 
 
-
-export default function Home() {
+export default function Home({page}: Props ) {
   return (
 
-    topBar()
-
+    <TopBar page1={page} />
+    
   );
 }
