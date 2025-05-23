@@ -1,11 +1,11 @@
 import LogoCITi from "./Logo.png";
-import lessThen from "./image.png"
+import lessThen from "./chevron-left.svg"
 import Sheep from "./sheep.png"
 import Cat from "./cat.png"
 import Pig from "./pig.png"
 import Cow from "./cow.png"
 import Horse from "./horse.png"
-import Dog from "./dog.png"
+import Dog from "./dog-removebg-preview.png"
 import downSignal from "./chevron-down.svg"
 
 export { LogoCITi };
