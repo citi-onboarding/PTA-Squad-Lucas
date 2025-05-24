@@ -1,6 +1,6 @@
 import LogoCITi from "./Logo.png";
-import LeftTopBar from "./LeftTopBar.svg";
-import RightTopBar from "./RightTopBar.svg";
+import LeftTopBar from "./TopBar/LeftTopBar.svg";
+import RightTopBar from "./TopBar/RightTopBar.svg";
 
 export {
     LogoCITi,
