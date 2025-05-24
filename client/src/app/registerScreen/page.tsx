@@ -51,7 +51,8 @@ export default function Forms() {
   
 
   return (
-    <form onSubmit={handleSubmit(handleChange)}>
+    <form onSubmit={handleSubmit(handleChange)}>~
+      <button type="submit">Enviar</button>
       <div className = "pt-40 pl-48">
         <div className = 'w-72 h-14 flex flex-row'>
           <div className = 'pt-[8px]'>
@@ -74,23 +75,23 @@ export default function Forms() {
 
           <div className = 'w-[1042.37] h-44 pt-10 flex flex-col'>
               <p className = 'font-bold text-4 tracking-0'>Qual é a espécie do paciente?</p>
-              <div className = 'flex flex-row pt-6 w-[1042.37] gap-[60px] h-36 px-3'>
-                <div className={` w-[100px] h-auto rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.SHEEP ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.SHEEP); setSelectedSpecies(PatientSpecie.SHEEP);}}>  
+              <div className = 'flex flex-row pt-4 w-[1042.37] gap-[60px] h-36 px-3'>
+                <div className={`pt-2 pl-[10px] w-[120px] h-[120px] rounded-xl cursor-pointer pl-1 ${selectedSpecies === PatientSpecie.SHEEP ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.SHEEP); setSelectedSpecies(PatientSpecie.SHEEP);}}>  
                   <Image src= { Sheep } alt= "sheep" className = 'w-[100px] h-[100px]'/>
                 </div>
-                <div className={`pl-2 w-30 h-30 rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.CAT ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.CAT); setSelectedSpecies(PatientSpecie.CAT);}}>
+                <div className={`pl-2 w-[120px] h-[120px] rounded-xl cursor-pointer pt-3 ${selectedSpecies === PatientSpecie.CAT ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.CAT); setSelectedSpecies(PatientSpecie.CAT);}}>
                   <Image src= { Cat } alt= "cat" className = 'w-[98px] h-[100px]'/>
                 </div>
-                <div className={`pl-2 w-30 h-30 rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.PIG ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.PIG); setSelectedSpecies(PatientSpecie.PIG);}}>
+                <div className={`pl-2 w-[120px] h-[120px] rounded-xl cursor-pointer pt-3 ${selectedSpecies === PatientSpecie.PIG ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.PIG); setSelectedSpecies(PatientSpecie.PIG);}}>
                   <Image src= { Pig } alt= "pig" className = 'w-[100px] h-[100px]'/>
                 </div>
-                <div className={`pl-2 w-30 h-30 rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.COW ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.COW); setSelectedSpecies(PatientSpecie.COW);}}>
+                <div className={`pl-3 w-[120px] h-[120px] rounded-xl cursor-pointer pt-3 ${selectedSpecies === PatientSpecie.COW ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.COW); setSelectedSpecies(PatientSpecie.COW);}}>
                   <Image src= { Cow } alt= "cow" className = 'w-[100px] h-[100px]'/>
                 </div>
-                <div className={`pl-2 w-30 h-30 rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.HORSE ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.HORSE); setSelectedSpecies(PatientSpecie.HORSE);}}>
+                <div className={`pl-3 w-[120px] h-[120px] rounded-xl cursor-pointer pt-3 ${selectedSpecies === PatientSpecie.HORSE ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.HORSE); setSelectedSpecies(PatientSpecie.HORSE);}}>
                   <Image src= { Horse } alt= "horse" className = 'w-[100px] h-[100px]'/>
                 </div>
-                <div className={`pl-2 w-30 h-30 rounded-xl cursor-pointer ${selectedSpecies === PatientSpecie.DOG ? 'bg-gray-300' : ''}`} onClick={() => {setValue("species", PatientSpecie.DOG); setSelectedSpecies(PatientSpecie.DOG);}}>
+                <div className={` w-[120px] h-[120px] rounded-xl cursor-pointer pt-3 pl-3 ${selectedSpecies === PatientSpecie.DOG ? 'bg-[#D9D9D9]' : ''}`} onClick={() => {setValue("species", PatientSpecie.DOG); setSelectedSpecies(PatientSpecie.DOG);}}>
                   <Image src= { Dog } alt= "dog" className = 'w-[100px] h-auto pt-1'/>
                 </div>
               </div>
