@@ -52,7 +52,6 @@ export default function Forms() {
 
   return (
     <form onSubmit={handleSubmit(handleChange)}>~
-      <button type="submit">Enviar</button>
       <div className = "pt-40 pl-48">
         <div className = 'w-72 h-14 flex flex-row'>
           <div className = 'pt-[8px]'>
