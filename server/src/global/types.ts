@@ -8,6 +8,11 @@ type GetableDatabase<Type> = {
   httpStatus: number;
 };
 
+type GetableDatabaseValue<Type> = {
+  value: Type | undefined;
+  httpStatus: number;
+};
+
 type RemoveableDatabase = {
   httpStatus: number;
   messageFromDelete: String;
@@ -26,6 +31,7 @@ type UpdatableDatabaseValue = {
 export {
   InsertableDatabase,
   GetableDatabase,
+  GetableDatabaseValue,
   RemoveableDatabase,
   FindableDatabaseValue,
   UpdatableDatabaseValue,

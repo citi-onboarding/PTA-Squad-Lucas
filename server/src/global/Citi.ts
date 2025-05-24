@@ -6,6 +6,7 @@ import {
   RemoveableDatabase,
   UpdatableDatabaseValue,
   FindableDatabaseValue,
+  GetableDatabaseValue,
 } from "./types";
 import { PrismaClient, type Prisma } from "@prisma/client";
 import prisma from "@database";
@@ -107,6 +108,35 @@ export default class Citi<Entity extends ModelNames> {
         values: [],
       };
     }
+  }
+
+  //   @param {string | number} id
+  //   @returns {Promise<FindableDatabaseValue<Models[Entity]>>}
+
+  async getById(
+   id: string | number
+  ) : Promise<GetableDatabaseValue<Models[Entity]>>{
+    try{
+      const value = await prisma[
+        this.entity.toLowerCase() as Uncapitalize<Prisma.ModelName>
+        //@ts-expect-error
+      ].findFirst({
+        where: {
+          id: Number(id),
+        },
+      });
+      Terminal.show(Message.VALUE_WAS_FOUND);
+      return {
+        httpStatus: 200,
+        value,
+      };
+    } catch (error){
+        Terminal.show(Message.VALUE_WAS_NOT_FOUND);
+        return {
+        httpStatus: 404,
+        value: undefined,
+        };
+      }
   }
 
   /**
