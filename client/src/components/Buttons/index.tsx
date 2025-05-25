@@ -22,7 +22,7 @@ export default function Button ({text, address, bg_color="#50E678", height=48, w
       
       style={{backgroundColor: bg_color,height, width}}
       
-      className="rounded-full text-white flex items-center justify-center gap-[10px]">
+      className="rounded-full text-white flex items-center justify-center gap-[10px] shadow-xl">
 
       {icon}{text}
       
