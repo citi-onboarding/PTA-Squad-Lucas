@@ -17,6 +17,23 @@ model User {
   age       Int
 }
 
+model Patient {
+  id           Int             @id @default(autoincrement()) 
+  name         String                               
+  tutorName    String                              
+  age          Int                                    
+  species      PatientSpecie                         
+}
+
+enum PatientSpecie {
+  SHEEP
+  CAT
+  PIG
+  COW
+  HORSE
+  DOG
+}
+
 model Test {
   id   Int    @id @default(autoincrement())
   name String
