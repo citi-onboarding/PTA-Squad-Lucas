@@ -3,27 +3,23 @@ import {useRouter} from 'next/navigation';
 
 interface Botao {
   text: string;
-  address: string;
-  bg_color?: string;
-  height?: number;
+  onClick: () => void;
+  color?: string;
   width?: number;
   icon?: React.ReactNode;
   
 };
 
-
-export default function Button ({text, address, bg_color="#50E678", height=48, width=205, icon}: Botao) {
+export default function Button ({text, onClick, color="#50E678", width=208, icon}: Botao) {
   const router = useRouter()
- 
+  console.log(color)
   return (
     <button type="button"
 
-      onClick={() => router.push(address)}
+      onClick={onClick}
       
-      style={{backgroundColor: bg_color,height, width}}
+      className={` bg-[#50E678] h-12 w-[${width}px] rounded-full text-white flex items-center justify-center gap-[10px] shadow-xl`}>
       
-      className="rounded-full text-white flex items-center justify-center gap-[10px] shadow-xl">
-
       {icon}{text}
       
     </button>
