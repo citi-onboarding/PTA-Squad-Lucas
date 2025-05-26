@@ -13,23 +13,7 @@ export default function Home() {
   return (
 
     <TopBar
-    page1={<>
-
-      <Buttons 
-          text={"Nova Páginas"}
-
-
-
-          color={"#7D1AD7"}
-          
-          onClick={add}
-
-          width={300}
-
-          icon={<Bike />}
-          />
-    
-    </>}
+    page1={<></>}
     page2={<></>}
     />
   );
