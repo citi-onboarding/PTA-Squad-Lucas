@@ -5,6 +5,7 @@ class UserController implements Crud {
   constructor(private readonly citi = new Citi("User")) {}
   create = async (request: Request, response: Response) => {
     const { firstName, lastName, age } = request.body;
+    console.log("Received data:", request.body);
 
     const isAnyUndefined = this.citi.areValuesUndefined(
       firstName,
