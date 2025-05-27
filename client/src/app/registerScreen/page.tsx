@@ -24,12 +24,19 @@ enum PatientSpecie {
   DOG = "DOG"
 }
 
+enum ConsType {
+  FIRST = "FIRST",
+  VACINATION = "VACINATION",
+  RETURN = "RETURN",
+  CHECKUP = "CHECKUP"
+}
+
 type ConsultForm = {
-    patientName: string;
-    tutorName: string;
-    species: PatientSpecie;
-    patientAge: string; //Tranformar para number
-    consultType: string;
+  patientName: string;
+  tutorName: string;
+  species: PatientSpecie;
+  patientAge: number;
+  consultType: ConsType;
 };
 
 export default function RegisterPage() {
@@ -38,8 +45,8 @@ export default function RegisterPage() {
     patientName: z.string().min(1, "Nome do paciente é obrigatório"),
     tutorName: z.string().min(1, "Nome do tutor é obrigatório!"),
     species: z.nativeEnum(PatientSpecie, {required_error: "Selecione uma espécie!",}),
-    patientAge: z.string().min(1, "Idade do paciente é obrigatória!"),
-    consultType: z.string().min(1, "Tipo da consulta é obrigatório!")
+    patientAge: z.coerce.number().min(1, "Idade do paciente é obrigatória!"),
+    consultType: z.nativeEnum(ConsType, { required_error: "Tipo da consulta é obrigatório!" })
   });
   
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
@@ -47,16 +54,18 @@ export default function RegisterPage() {
   const handleChange = (data: ConsultForm) => {
     console.log("Form data:", data);
   };
+ 
   
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
   
 
   return (
     <form onSubmit={handleSubmit(handleChange)}>
+      <button type="submit">Enviar</button>
       <div className = "pt-12 px-48">
         
         {/* Essa div será uma botão para retornar á página de Atendimento, crie uma função vazia por enquanto */}
-        <div className = 'w-72 h-14 flex flex-row'>
+        <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={() => {}}>
           <div className = 'pt-[8px]'>
             <Image src= { lessThen } alt="Less then" className = 'w-10 h-10'/>
           </div>
@@ -176,10 +185,10 @@ export default function RegisterPage() {
                 <option value="" disabled>
                   Selecione o tipo de consulta
                 </option>
-                <option value="FIRST">Primeira Consulta</option>
-                <option value="VACINATION">Vacinação</option>
-                <option value="RETURN">Retorno</option>
-                <option value="CHECKUP">Check-up</option>
+                <option value={ConsType.FIRST}>Primeira Consulta</option>
+                <option value={ConsType.VACINATION}>Vacinação</option>
+                <option value={ConsType.RETURN}>Retorno</option>
+                <option value={ConsType.CHECKUP}>Check-up</option>
               </select>
             </div>
 
