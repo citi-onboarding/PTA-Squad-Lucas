@@ -1,7 +1,7 @@
 import topBar from "./topBar";
-import button from "./Buttons"
+import button from "./Button"
 
 export {
      topBar as TopBar,
-     button as Buttons
+     button as Button
     };
