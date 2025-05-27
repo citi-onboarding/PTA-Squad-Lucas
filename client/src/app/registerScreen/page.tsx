@@ -55,17 +55,17 @@ export default function RegisterPage() {
     console.log("Form data:", data);
   };
  
-  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
-  
 
+  const handleReturn = () => {
+    // Esse botão irá voltar paraa página de Atendimento
+  }
+  
   return (
     <form onSubmit={handleSubmit(handleChange)}>
-      <button type="submit">Enviar</button>
       <div className = "pt-12 px-48">
         
-        {/* Essa div será uma botão para retornar á página de Atendimento, crie uma função vazia por enquanto */}
-        <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={() => {}}>
+        <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={handleReturn}>
           <div className = 'pt-[8px]'>
             <Image src= { lessThen } alt="Less then" className = 'w-10 h-10'/>
           </div>
@@ -191,7 +191,6 @@ export default function RegisterPage() {
                 <option value={ConsType.CHECKUP}>Check-up</option>
               </select>
             </div>
-
           </div>
         </div>
       </div>
