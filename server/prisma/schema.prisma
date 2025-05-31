@@ -18,11 +18,12 @@ model User {
 }
 
 model Patient {
-  id           Int             @id @default(autoincrement()) 
-  name         String                               
-  tutorName    String                              
-  age          Int                                    
-  species      PatientSpecie                         
+  id            Int            @id @default(autoincrement())
+  name          String
+  tutorName     String
+  age           Int
+  species       PatientSpecie
+  consultations Consultation[] //Adicionar no schema de pacientes                         
 }
 
 enum PatientSpecie {
@@ -38,4 +39,22 @@ model Test {
   id   Int    @id @default(autoincrement())
   name String
   age  Int
+}
+
+enum ConsType {
+  FIRST
+  VACINATION
+  RETURN
+  CHECKUP
+}
+
+model Consultation {
+  id          Int      @id @default(autoincrement())
+  datetime    DateTime
+  type        ConsType
+  description String
+  doctorName  String
+
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
 }
