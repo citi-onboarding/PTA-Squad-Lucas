@@ -11,6 +11,10 @@ import LeftTopBar from "./TopBar/LeftTopBar.svg";
 import RightTopBar from "./TopBar/RightTopBar.svg";
 import PlusIcon from "./Buttons/PlusIcon.svg";
 import CheckIcon from "./Buttons/CheckIcon.svg";
+import Clock from "./alarm.svg"
+import Paw from "./paw.svg"
+import ArrowRight from "./arrow_right.svg"
+
 
 export {
     LogoCITi,
@@ -25,5 +29,8 @@ export {
     Cow, 
     Horse,
     Dog,
-    downSignal
+    downSignal,
+    Clock,
+    Paw,
+    ArrowRight,
  };
