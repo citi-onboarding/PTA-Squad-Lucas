@@ -90,6 +90,110 @@ pacientSpecie: "COW",
 onClick: () => console.log("Consulta 4 selecionada"),
 },
 
+{
+id: 5,
+Date: "2025-07-19",
+Time: "16:30",
+typeConsul: "VACINATION",
+doctorName: "Manuel",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "PIG",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 6,
+Date: "2025-07-29",
+Time: "16:30",
+typeConsul: "FIRST",
+doctorName: "Manuel",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "CAT",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 7,
+Date: "2025-05-13",
+Time: "16:30",
+typeConsul: "CHECKUP",
+doctorName: "Manuel",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "HORSE",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 8,
+Date: "2025-07-29",
+Time: "13:30",
+typeConsul: "CHECKUP",
+doctorName: "Lais",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "SHEEP",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 9,
+Date: "2025-08-01",
+Time: "10:00",
+typeConsul: "RETURN",
+doctorName: "Lais",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "DOG",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 10,
+Date: "2025-08-05",
+Time: "08:00",
+typeConsul: "CHECKUP",
+doctorName: "Lais",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "HORSE",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 11,
+Date: "2025-08-05",
+Time: "10:00",
+typeConsul: "VACINATION",
+doctorName: "Lais",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "DOG",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
+{
+id: 12,
+Date: "2025-08-05",
+Time: "14:00",
+typeConsul: "FIRST",
+doctorName: "Larissa",
+pacientName: "Bidu",
+pacientTutorName: "Ana",
+pacientAge: 4,
+pacientSpecie: "HORSE",
+onClick: () => console.log("Consulta 4 selecionada"),
+},
+
 ];
 
 
@@ -97,15 +201,37 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 export default function ServicePage() {
 
+  const dataAtual = "2025-06-01"
   const [input, setInput] = useState("");
   const [filtro, setFiltro] = useState("");
   const [inicio, setInicio] = useState("")
   const [fim, SetFim] = useState("")
 
-  let consultasFiltradas = ConsultCardVetor
-    .filter(card =>card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
-    .filter(card => !inicio || card.Date>=(inicio))
-    .filter(card => !fim || card.Date<=(fim));
+
+  function Agendamento() {
+    let consultasFiltradas = ConsultCardVetor
+      .filter(card =>card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
+      .filter(card => card.Date>=(dataAtual))
+      .filter(card => !inicio || card.Date>=(inicio))
+      .filter(card => !fim || card.Date<=(fim));
+    
+    return (consultasFiltradas.map(card => (
+                <ConsultCard
+                key={card.id}
+                id={card.id}
+                Date={card.Date}
+                Time={card.Time}
+                typeConsul={card.typeConsul}
+                doctorName={card.doctorName}
+                pacientName={card.pacientName}
+                pacientTutorName={card.pacientTutorName}
+                pacientAge={card.pacientAge}
+                pacientSpecie={card.pacientSpecie}
+                onClick={card.onClick}
+                />
+              )))
+  }
+
       
   
   function AplicarFiltro(){
@@ -113,13 +239,37 @@ export default function ServicePage() {
   }
 
 
+  function Historico() {
+
+    let consultasFiltradas = ConsultCardVetor
+      .filter(card => card.Date<(dataAtual))
+      .filter(card =>card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
+      .filter(card => !inicio || card.Date>=(inicio))
+      .filter(card => !fim || card.Date<=(fim));
+
+    return (consultasFiltradas.map(card => (
+                <ConsultCard
+                key={card.id}
+                id={card.id}
+                Date={card.Date}
+                Time={card.Time}
+                typeConsul={card.typeConsul}
+                doctorName={card.doctorName}
+                pacientName={card.pacientName}
+                pacientTutorName={card.pacientTutorName}
+                pacientAge={card.pacientAge}
+                pacientSpecie={card.pacientSpecie}
+                onClick={card.onClick}
+                />
+              )))
+  }
 
 
 
   return (
 
     // Div geral
-    <div className="pt-12 pl-48 pr-48 pb-20 w-full ">
+    <div className="pt-12 pb-20 w-full ">
 
       {/* Ícone voltar e "Atendimento" */}
       <div className="w-full flex flex-row mb-8 items-center gap-4">
@@ -152,75 +302,59 @@ export default function ServicePage() {
       </div>
 
       {/* Histórico/Agendamento e filtro de calendário */}
-      <div className="flex flex-row w-full">
+      <div className="flex flex-row w-full mb-48">
         
-        <div className="mb-48">
 
-          <Tabs defaultValue="history" className="w-full ">
+        <Tabs defaultValue="history" className="w-full ">
+          
+          <div className="flex flew-row items-center w-full mb-8 justify-between">
+
+            {/* Histórico ou agendamento */}
+            <TabsList className="flex flex-row  bg-[#F0F0F0] h-14 w-60 gap-2 p-3 rounded-xl">
+
+              <TabsTrigger value="history" className=" font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
+                Histórico
+              </TabsTrigger>
+
+              <TabsTrigger value="scheduling" className="font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
+                Agendamento
+              </TabsTrigger>
+
+            </TabsList>
             
-            <div className="flex flew-row items-center w-full mb-8 justify-between">
-
-              {/* Histórico ou agendamento */}
-              <TabsList className="flex flex-row  bg-[#F0F0F0] h-14 w-60 gap-2 p-3 rounded-xl">
-
-                <TabsTrigger value="history" className=" font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
-                  Histórico
-                </TabsTrigger>
-
-                <TabsTrigger value="scheduling" className="font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
-                  Agendamento
-                </TabsTrigger>
-
-              </TabsList>
+            {/* Filtos de datas */}
+            <div className="flex flex-row gap-3 ">
+              <input 
+              type="date" 
+              value={inicio}
+              onChange={e => setInicio(e.target.value)}
+              className="border border-[#D9D9D9]  px-2 py-2 rounded-lg w-36"></input>
               
-              {/* Filtos de datas */}
-              <div className="flex flex-row gap-3 ">
-                <input 
-                type="date" 
-                value={inicio}
-                onChange={e => setInicio(e.target.value)}
-                className="border border-[#D9D9D9]  px-2 py-2 rounded-lg w-36"></input>
-                
-                <input 
-                type="date" 
-                value={fim}
-                onChange={e => SetFim(e.target.value)}
-                className="border border-[#D9D9D9] px-2 py-2 rounded-lg w-36"></input>
-              </div>
-
+              <input 
+              type="date" 
+              value={fim}
+              onChange={e => SetFim(e.target.value)}
+              className="border border-[#D9D9D9] px-2 py-2 rounded-lg w-36"></input>
             </div>
 
-            <TabsContent value="history" className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px]" >
-              <div>
+          </div>
 
-              </div>
-            </TabsContent >
+          <TabsContent value="history" className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px]" >
+
+            {Historico()}
+
+          </TabsContent >
 
 
 
-            <TabsContent value="scheduling"  className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px]">
-              
-              {consultasFiltradas.map(card => (
-                <ConsultCard
-                key={card.id}
-                id={card.id}
-                Date={card.Date}
-                Time={card.Time}
-                typeConsul={card.typeConsul}
-                doctorName={card.doctorName}
-                pacientName={card.pacientName}
-                pacientTutorName={card.pacientTutorName}
-                pacientAge={card.pacientAge}
-                pacientSpecie={card.pacientSpecie}
-                onClick={card.onClick}
-                />
-              ))}
+          <TabsContent value="scheduling"  className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px]">
+            
+            {Agendamento()}
 
-            </TabsContent>
+          </TabsContent>
 
-          </Tabs>
+        </Tabs>
 
-        </div>
 
       </div>
 
