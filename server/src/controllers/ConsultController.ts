@@ -10,24 +10,30 @@ class ConsultController implements Crud{
     constructor(private readonly citi = new Citi("Consultation")) {}
     create = async (request: Request, response: Response) => {
         const { datetime, type, description, doctorName, patientId } = request.body;
-        const consult = await new Citi("Consultation").findById(patientId);
 
-    if (consult.value) {
-        return response.status(404).send({ error: "Consulta já criada!" });
-    }
+        if (!datetime || !type || !description || !doctorName || !patientId) {
+            return response.status(400).send({ error: "Campos obrigatórios ausentes." });
+        }
 
-    const newConsult = {datetime, type, description, doctorName, patientId}
-    const result = await this.citi.insertIntoDatabase(newConsult);
+        const patient = await new Citi("Patient").findById(patientId);
+        if (!patient.value) {
+        return response.status(404).send({ error: "Paciente não encontrado." });
+        }
 
-    return response.status(result.httpStatus).send({ message: result.message });
-    }
+        const newConsult = {
+            datetime: new Date(datetime),
+            type,
+            description,
+            doctorName,
+            patientId: Number(patientId)
+        };
 
-    get = async (request: Request, response: Response)=>{
         try {
-            const { httpStatus, values } = await this.citi.getAll();
-            return response.status(httpStatus).send(values);
+            const result = await this.citi.insertIntoDatabase(newConsult);
+            return response.status(result.httpStatus).send({ message: result.message });
         } catch (error) {
-            return response.status(500).send({ error: "Erro ao buscar consultas" });
+            console.error(error);
+            return response.status(500).send({ error: "Erro ao criar consulta." });
         }
     };
 
@@ -70,6 +76,7 @@ class ConsultController implements Crud{
             }
             return response.status(200).send(result);
         } catch (error) {
+            console.error(error);
             return response.status(500).send({ error: "Erro ao buscar consultas do paciente" });
         }
     };
@@ -118,7 +125,5 @@ class ConsultController implements Crud{
         }
     }
     };
-
-
 
 export default new ConsultController();

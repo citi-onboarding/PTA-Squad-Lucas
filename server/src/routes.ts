@@ -25,9 +25,9 @@ routes.get("/", (req, res) => {
 routes.post("/consultation", ConsultController.create);
 routes.get("/consultation", ConsultController.getAllConsultations);
 routes.get("/consultation/:id", ConsultController.getConsultationById);
-routes.get("/consultations/patient/:id", ConsultController.getConsultationByPatientId);
-routes.get("/consultations/doctor/:name", ConsultController.getConsultationByDoctorName);
-routes.put("/consultations/:id", ConsultController.updateConsultation);
-routes.delete("/consultations/:id", ConsultController.deleteConsultation);
+routes.get("/consultation/patient/:patientId", ConsultController.getConsultationByPatientId);
+routes.get("/consultation/doctor/:doctorName", ConsultController.getConsultationByDoctorName);
+routes.put("/consultation/:id", ConsultController.updateConsultation);
+routes.delete("/consultation/:id", ConsultController.deleteConsultation);
 
 export default routes;
