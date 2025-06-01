@@ -1,6 +1,7 @@
 import express from "express";
 import userController from "./controllers/UserController";
 import patientController from "./controllers/PatientController";
+import ConsultController from "./controllers/ConsultController";
 
 
 const routes = express.Router();
@@ -21,5 +22,12 @@ routes.get("/", (req, res) => {
   res.status(200).send("Location Metrics Endpoint");
 });
 
+routes.post("/consultation", ConsultController.create);
+routes.get("/consultation", ConsultController.getAllConsultations);
+routes.get("/consultation/:id", ConsultController.getConsultationById);
+routes.get("/consultations/patient/:id", ConsultController.getConsultationByPatientId);
+routes.get("/consultations/doctor/:name", ConsultController.getConsultationByDoctorName);
+routes.put("/consultations/:id", ConsultController.updateConsultation);
+routes.delete("/consultations/:id", ConsultController.deleteConsultation);
 
 export default routes;

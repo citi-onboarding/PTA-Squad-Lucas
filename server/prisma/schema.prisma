@@ -23,7 +23,7 @@ model Patient {
   tutorName     String
   age           Int
   species       PatientSpecie
-  consultations Consultation[] //Adicionar no schema de pacientes                         
+  consultations Consultation[] //Adicionar no schema de pacientes
 }
 
 enum PatientSpecie {

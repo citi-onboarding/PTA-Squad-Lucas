@@ -1,55 +1,124 @@
 import { Request, response, Response } from "express";
 import { Citi, Crud } from "../global";
-import { time } from "console";
+import { PrismaClient, Prisma } from "@prisma/client";
+
+
+
+const prisma = new PrismaClient();
 
 class ConsultController implements Crud{
     constructor(private readonly citi = new Citi("Consultation")) {}
     create = async (request: Request, response: Response) => {
-    const { datetime, type, description, doctorName, patientId } = request.body;
+        const { datetime, type, description, doctorName, patientId } = request.body;
+        const consult = await new Citi("Consultation").findById(patientId);
 
-    // Verifica se o paciente existe
-    const consult = await new Citi("Consultation").findById(patientId);
     if (consult.value) {
         return response.status(404).send({ error: "Consulta já criada!" });
     }
-    const NewConsult = {datetime, type, description, doctorName, patientId}
-    const result = await this.citi.insertIntoDatabase({NewConsult});
+
+    const newConsult = {datetime, type, description, doctorName, patientId}
+    const result = await this.citi.insertIntoDatabase(newConsult);
 
     return response.status(result.httpStatus).send({ message: result.message });
-}
+    }
 
     get = async (request: Request, response: Response)=>{
-        const { httpStatus, values} = await this.citi.getAll();
-        return response.status(httpStatus).send(values);
-    };
-    delete = async (request: Request, response: Response)=>{
-        const { id } = request.params;
-        const { httpStatus, messageFromDelete } = await this.citi.deleteValue(id);
-        return response.status(httpStatus).send({messageFromDelete});
-    };
-    update = async (request:Request, response: Response)=>{
-        const { id } = request.params;
-        const { name, tutorName, age, species} = request.body;
-        
-        const updatedValues = {name,tutorName,age,species};
-
-        const {httpStatus, messageFromUpdate} = await this.citi.updateValue(
-            id,
-            updatedValues
-        );
-        return response.status(httpStatus).send({ messageFromUpdate })
-    };
-
-    getById = async (request:Request, response: Response) => {
-        const { id } = request.params;
-        const {httpStatus, value} = await this.citi.findById(id)
-
-        if(value === null) {
-            return response.status(404).send({message: "Patient not found"})
+        try {
+            const { httpStatus, values } = await this.citi.getAll();
+            return response.status(httpStatus).send(values);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao buscar consultas" });
         }
-        
-        return response.status(httpStatus).send(value)
     };
-}
 
-export default new PatientController();
+    getAllConsultations = async (request: Request, response: Response) => {
+        try {
+            const result = await prisma.consultation.findMany({
+                include: { patient: true }
+            });
+            return response.status(200).send(result);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao buscar consultas" });
+        }
+    };
+
+    getConsultationById = async (request: Request, response: Response) => {
+        const { id } = request.params;
+        try {
+            const result = await prisma.consultation.findUnique({
+                where: { id: Number(id) },
+                include: { patient: true }
+            });
+            if (!result) {
+                return response.status(404).send({ error: "Consulta não encontrada" });
+            }
+            return response.status(200).send(result);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao buscar consulta" });
+        }
+    };
+
+    getConsultationByPatientId = async (request: Request, response: Response) => {
+        const { patientId } = request.params;
+        try {
+            const result = await prisma.consultation.findMany({
+                where: { patientId: Number(patientId) },
+                include: { patient: true }
+            });
+            if (result.length === 0) {
+                return response.status(404).send({ error: "Nenhuma consulta encontrada para este paciente" });
+            }
+            return response.status(200).send(result);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao buscar consultas do paciente" });
+        }
+    };
+
+    getConsultationByDoctorName = async (request: Request, response: Response) => {
+        const { doctorName } = request.params;
+        try {
+            const result = await prisma.consultation.findMany({                 
+                where: { doctorName: { contains: doctorName, mode: 'insensitive' } },
+                include: { patient: true }
+            }); 
+
+            if (result.length === 0) {
+                return response.status(404).send({ error: "Nenhuma consulta encontrada para este médico" });
+            }
+            return response.status(200).send(result);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao buscar consultas do médico" });
+        }
+    };
+
+    deleteConsultation = async (request: Request, response: Response) => {
+        const { id } = request.params;
+        try {
+            await prisma.consultation.delete({
+                where: { id: Number(id) }
+            });
+            return response.status(200).send({ message: "Consulta deletada com sucesso" });
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao deletar consulta" });
+        }
+    };
+
+    updateConsultation = async (request: Request, response: Response) => {
+        const { id } = request.params;
+        const { datetime, type, description, doctorName, patientId } = request.body;
+
+        try {
+            const updatedConsult = await prisma.consultation.update({
+                where: { id: Number(id) },
+                data: { datetime, type, description, doctorName, patientId }
+            });
+            return response.status(200).send(updatedConsult);
+        } catch (error) {
+            return response.status(500).send({ error: "Erro ao atualizar consulta" });
+        }
+    }
+    };
+
+
+
+export default new ConsultController();
