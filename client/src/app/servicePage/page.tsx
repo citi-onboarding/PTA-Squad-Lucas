@@ -347,7 +347,7 @@ export default function ServicePage() {
 
 
 
-          <TabsContent value="scheduling"  className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px]">
+          <TabsContent value="scheduling"  className="grid grid-cols-3 grid-rows-2 gap-3 w-[1224px] mt-[-12px]">
             
             {Agendamento()}
 
