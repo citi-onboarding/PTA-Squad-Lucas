@@ -1,13 +1,12 @@
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { Citi, Crud } from "../global";
-import { PrismaClient, Prisma } from "@prisma/client";
-
-
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-class ConsultController implements Crud{
+class ConsultController implements Crud {
     constructor(private readonly citi = new Citi("Consultation")) {}
+
     create = async (request: Request, response: Response) => {
         const { datetime, type, description, doctorName, patientId } = request.body;
 
@@ -17,7 +16,7 @@ class ConsultController implements Crud{
 
         const patient = await new Citi("Patient").findById(patientId);
         if (!patient.value) {
-        return response.status(404).send({ error: "Paciente não encontrado." });
+            return response.status(404).send({ error: "Paciente não encontrado." });
         }
 
         const newConsult = {
@@ -37,7 +36,7 @@ class ConsultController implements Crud{
         }
     };
 
-    getAllConsultations = async (request: Request, response: Response) => {
+    getAllConsultations = async (_: Request, response: Response) => {
         try {
             const result = await prisma.consultation.findMany({
                 include: { patient: true }
@@ -84,10 +83,10 @@ class ConsultController implements Crud{
     getConsultationByDoctorName = async (request: Request, response: Response) => {
         const { doctorName } = request.params;
         try {
-            const result = await prisma.consultation.findMany({                 
+            const result = await prisma.consultation.findMany({
                 where: { doctorName: { contains: doctorName, mode: 'insensitive' } },
                 include: { patient: true }
-            }); 
+            });
 
             if (result.length === 0) {
                 return response.status(404).send({ error: "Nenhuma consulta encontrada para este médico" });
@@ -100,10 +99,20 @@ class ConsultController implements Crud{
 
     deleteConsultation = async (request: Request, response: Response) => {
         const { id } = request.params;
+
         try {
+            const existingConsult = await prisma.consultation.findUnique({
+                where: { id: Number(id) }
+            });
+
+            if (!existingConsult) {
+                return response.status(404).send({ error: "Consulta não encontrada" });
+            }
+
             await prisma.consultation.delete({
                 where: { id: Number(id) }
             });
+
             return response.status(200).send({ message: "Consulta deletada com sucesso" });
         } catch (error) {
             return response.status(500).send({ error: "Erro ao deletar consulta" });
@@ -114,16 +123,35 @@ class ConsultController implements Crud{
         const { id } = request.params;
         const { datetime, type, description, doctorName, patientId } = request.body;
 
+        if (!datetime || !type || !description || !doctorName || !patientId) {
+            return response.status(400).send({ error: "Campos obrigatórios ausentes." });
+        }
+
         try {
+            const existingConsult = await prisma.consultation.findUnique({
+                where: { id: Number(id) }
+            });
+
+            if (!existingConsult) {
+                return response.status(404).send({ error: "Consulta não encontrada" });
+            }
+
             const updatedConsult = await prisma.consultation.update({
                 where: { id: Number(id) },
-                data: { datetime, type, description, doctorName, patientId }
+                data: {
+                    datetime: new Date(datetime),
+                    type,
+                    description,
+                    doctorName,
+                    patientId: Number(patientId)
+                }
             });
+
             return response.status(200).send(updatedConsult);
         } catch (error) {
             return response.status(500).send({ error: "Erro ao atualizar consulta" });
         }
-    }
     };
+}
 
 export default new ConsultController();
