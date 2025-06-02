@@ -9,8 +9,7 @@ export default function Home() {
       <div className="flex flex-wrap gap-4">
         <ConsulCard
         id={1}
-        Date="06/10"
-        Time="14:00"
+        DateTime="2025-05-23T14:30:00.000Z"
         typeConsul="FIRST"
         doctorName="Dr. Smith"
         pacientName="Luna"
@@ -20,8 +19,7 @@ export default function Home() {
         onClick={() => console.log("clicado")}></ConsulCard>
         <ConsulCard
         id={1}
-        Date="06/10"
-        Time="14:00"
+        DateTime="2025-05-23T14:30:00.000Z"
         typeConsul="RETURN"
         doctorName="Dr. Smith"
         pacientName="Luna"
@@ -31,8 +29,7 @@ export default function Home() {
         onClick={() => console.log("clicado")}></ConsulCard>
         <ConsulCard
         id={1}
-        Date="06/10"
-        Time="14:00"
+        DateTime="2025-05-23T14:30:00.000Z"
         typeConsul="CHECKUP"
         doctorName="Dr. Smith"
         pacientName="Luna"
@@ -42,8 +39,7 @@ export default function Home() {
         onClick={() => console.log("clicado")}></ConsulCard>
         <ConsulCard
         id={1}
-        Date="06/10"
-        Time="14:00"
+        DateTime="2025-05-23T14:30:00.000Z"
         typeConsul="VACINATION"
         doctorName="Dr. Smith"
         pacientName="Luna"
@@ -53,8 +49,7 @@ export default function Home() {
         onClick={() => console.log("clicado")}></ConsulCard>
         <ConsulCard
         id={1}
-        Date="06/10"
-        Time="14:00"
+        DateTime="2025-06-27T14:30:00.000Z"
         typeConsul="CHECKUPdafsghk"
         doctorName="Dr. Smith"
         pacientName="Luna"

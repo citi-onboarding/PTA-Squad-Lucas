@@ -12,8 +12,7 @@ import Image from "next/image";
 
 interface ConsulCard {
   id: number;
-  Date: string;
-  Time: string;
+  DateTime: string;
   typeConsul: string;
   doctorName: string;
   pacientName: string;
@@ -25,8 +24,7 @@ interface ConsulCard {
 
 export default function consultCard({
   id,
-  Date,
-  Time,
+  DateTime,
   typeConsul,
   doctorName,
   pacientTutorName,
@@ -41,6 +39,10 @@ export default function consultCard({
     "CHECKUP": "#9CFF95",
     "VACINATION": "#AAE1FF",
   }[typeConsul] || "#F0F0F0"
+
+  const Date = DateTime.slice(5, 10).replace("-", "/"); // "fatia relevante da data"
+  const Time = DateTime.slice(11, 16); // "fatia mais significativa da hora"
+
 
   const tipoCon = {
     "FIRST": "Primeira Consulta",
