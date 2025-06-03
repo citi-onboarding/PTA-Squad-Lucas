@@ -5,7 +5,7 @@ import ServicePage from "./servicePage/page";
 export default function Home() {
   return (
     <TopBar
-      page1={<><ServicePage/></>}
+      page1={<></>}
       page2={<></>}
     />
   );

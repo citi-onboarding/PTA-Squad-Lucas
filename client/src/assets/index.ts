@@ -12,8 +12,8 @@ import RightTopBar from "./TopBar/RightTopBar.svg";
 import PlusIcon from "./Buttons/PlusIcon.svg";
 import CheckIcon from "./Buttons/CheckIcon.svg";
 import Calendar from "./calendar_month.svg";
-import clock from "./alarm.svg"
-import paw from "./paw.svg"
+import Clock from "./alarm.svg"
+import Paw from "./paw.svg"
 
 export {
     LogoCITi,
@@ -30,6 +30,6 @@ export {
     Dog,
     downSignal,
     Calendar,
-    clock,
-    paw,
+    Clock,
+    Paw,
  };

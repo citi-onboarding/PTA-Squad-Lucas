@@ -6,4 +6,4 @@ export {
      topBar as TopBar,
      button as Button,
      consultCard as ConsultCard
-    };
+};
