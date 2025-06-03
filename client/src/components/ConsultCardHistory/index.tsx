@@ -3,8 +3,7 @@ import { ArrowRight } from "@/assets";
 
 interface  ConsultCardType {
 id: number; 
-Date: string;
-Time: string;
+DateTime: string;
 typeConsul: string;
 doctorName: string;
 pacientName: string;
@@ -15,7 +14,17 @@ onClick: () => void;
 key?: number;
 };
 
-export default function ConsultCardHistory({ id, Date, Time, typeConsul, doctorName, pacientTutorName, pacientName, pacientAge, pacientSpecie, onClick,}: ConsultCardType) {
+export default function ConsultCardHistory({
+  id,
+  DateTime,
+  typeConsul,
+  doctorName,
+  pacientTutorName,
+  pacientName,
+  pacientAge,
+  pacientSpecie,
+  onClick,
+}: ConsultCardType) {
     
   const tipoCon = {
     "FIRST": "Primeira Consulta",
@@ -24,7 +33,9 @@ export default function ConsultCardHistory({ id, Date, Time, typeConsul, doctorN
     "VACINATION": "Vacinação",
   }[typeConsul] || "Default"
 
-  let dataSeparada = Date.split("-");
+  let dia = DateTime.slice(8,10);
+  let mes = DateTime.slice(5,7);
+  let horario = DateTime.slice(11,16);
 
 
 
@@ -35,9 +46,9 @@ export default function ConsultCardHistory({ id, Date, Time, typeConsul, doctorN
       <div className="bg-[#F0F0F0] rounded-2xl w-[510px] h-20 items-center flex flex-row justify-between px-6">
 
         {/* Horário e data */}
-        <div className="bg-white rounded-md font-semibold w-12 h-12 p-1 justify-center">
-          <p className="text-sm"> {dataSeparada[2]}/{dataSeparada[1]} </p>
-          <p className="text-sm"> {Time} </p>
+        <div className="bg-white rounded-md font-bold w-12 h-12 p-1 justify-center">
+          <p className="text-sm"> {dia}/{mes} </p>
+          <p className="text-sm"> {horario} </p>
         </div>
 
         {/* Tipo de consulta */}

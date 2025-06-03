@@ -6,8 +6,7 @@ import { ArrowForward } from "@/assets";
 
 interface  ConsultCardType {
 id: number; 
-Date: string;
-Time: string;
+DateTime: string;
 typeConsul: string;
 doctorName: string;
 pacientName: string;
@@ -19,15 +18,13 @@ key?: number;
 };
 
 
-// Preenchendo o vetor
 const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-05-24T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -37,10 +34,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-08-01T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Magali",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -50,10 +46,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-06-01T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -63,24 +58,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-06-05T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-
-  {
-  id: 1,
-  Date: "2025-04-06",
-  Time: "07:00",
-  typeConsul: "VACINATION",
-  doctorName: "Vinícius Santos Lima",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -90,50 +70,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-04-10",
-  Time: "07:00",
-  typeConsul: "RETURN",
-  doctorName: "Matheus Henrique Ferreira Júnior",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  Date: "2025-05-15",
-  Time: "07:00",
-  typeConsul: "CHECKUP",
-  doctorName: "Ricardo",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  Date: "2025-04-31",
-  Time: "07:00",
-  typeConsul: "CHECKUP",
-  doctorName: "Larissa",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "DOG",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  
-  {
-  id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-05-14T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -143,10 +82,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2024-03-27T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -156,10 +94,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2026-05-14T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -167,26 +104,11 @@ const ConsultCardVetor: ConsultCardType[] = [
   onClick: () => console.log("Consulta 1 selecionada"),
   },
 
-  {
+    {
   id: 1,
-  Date: "2025-03-31",
-  Time: "07:00",
+  DateTime: "2025-05-14T14:30:00.000Z",
   typeConsul: "FIRST",
-  doctorName: "Larissa",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-
-  {
-  id: 1,
-  Date: "2025-04-06",
-  Time: "07:00",
-  typeConsul: "VACINATION",
-  doctorName: "Vinícius Santos Lima",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -196,10 +118,9 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-04-10",
-  Time: "07:00",
-  typeConsul: "RETURN",
-  doctorName: "Matheus Henrique Ferreira Júnior",
+  DateTime: "2025-05-14T14:30:00.000Z",
+  typeConsul: "FIRST",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
@@ -209,44 +130,36 @@ const ConsultCardVetor: ConsultCardType[] = [
 
   {
   id: 1,
-  Date: "2025-05-15",
-  Time: "07:00",
-  typeConsul: "CHECKUP",
-  doctorName: "Ricardo",
+  DateTime: "2025-05-14T14:30:00.000Z",
+  typeConsul: "FIRST",
+  doctorName: "Monica",
   pacientName: "Miau",
   pacientTutorName: "Carlos",
   pacientAge: 3,
   pacientSpecie: "CAT",
   onClick: () => console.log("Consulta 1 selecionada"),
   },
-
-  {
-  id: 1,
-  Date: "2025-04-31",
-  Time: "07:00",
-  typeConsul: "CHECKUP",
-  doctorName: "Larissa",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "DOG",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
 ];
 
-export default function History() {
+export default function History({
+  id,
+  DateTime,
+  typeConsul,
+  doctorName,
+  pacientTutorName,
+  pacientName,
+  pacientAge,
+  pacientSpecie,
+  onClick,
+}: ConsultCardType) {
 
-  const dataAtual = "2025-06-01"
-  const idAtual = 1
-
-
-
+  let dataAtual: string = new Date().toISOString()
+  
 
   function Paginacao(){
     let consultasFiltradas = ConsultCardVetor
-      .filter(card =>card.id === (idAtual))
-      .filter(card => card.Date<(dataAtual))
+      .filter(card =>card.id === (id))
+      .filter(card => card.DateTime<(dataAtual))
     
     const [paginaAtual, setPaginaAtual] = useState(1)
     const consulPorPagina = 5
@@ -275,8 +188,7 @@ export default function History() {
               <ConsultCardHistory
               key={card.id}
               id={card.id}
-              Date={card.Date}
-              Time={card.Time}
+              DateTime={card.DateTime}
               typeConsul={card.typeConsul}
               doctorName={card.doctorName}
               pacientName={card.pacientName}
@@ -286,43 +198,49 @@ export default function History() {
               onClick={card.onClick}/>))
             }
           </div>
+          
+          {totalPaginas>1 ?
+            <div className="gap-4 items-center justify-between ">
 
-          <div className="gap-4 items-center justify-between ">
-            <button
-              onClick={() => setPaginaAtual((paginaAtual) => Math.max(paginaAtual-1, 1))}
-              disabled={paginaAtual === 1}
-              className="disabled:opacity-50 transition-opacity">
+              <button
+                onClick={() => setPaginaAtual((paginaAtual) => Math.max(paginaAtual-1, 1))}
+                disabled={paginaAtual === 1}
+                className="disabled:opacity-50 transition-opacity">
 
-              <Image src={ArrowBack} alt="Botão voltar"></Image>
+                <Image src={ArrowBack} alt="Botão voltar"></Image>
 
-            </button>
-
-
-            {Array.from({length: totalPaginas}, (_,indice) => (
-                <button
-                  key={indice}
-                  onClick={() => setPaginaAtual(indice + 1)}
-                  className={`transition-all text-2xl font-semibold rounded-lg m-1 p-3 ${indice + 1 === paginaAtual ? "bg-[#D9D9D9]" : "bg-transparent text-xl opacity-70"}`}>
-                  
-                  {indice+1}
-
-                </button>
-              ))
-
-            }
+              </button>
 
 
+              
+              {Array.from({length: totalPaginas}, (_,indice) => (
+                  <button
+                    key={indice}
+                    onClick={() => setPaginaAtual(indice + 1)}
+                    className={`transition-all text-2xl font-semibold rounded-lg m-1 p-3 ${indice + 1 === paginaAtual ? "bg-[#D9D9D9]" : "bg-transparent text-xl opacity-70"}`}>
+                    
+                    {indice+1}
 
-            <button
-              onClick={() => setPaginaAtual((paginaAtual) => paginaAtual<Math.ceil(consultasFiltradas.length/consulPorPagina) ? paginaAtual + 1 : paginaAtual)}
-              disabled={paginaAtual === Math.ceil(consultasFiltradas.length/consulPorPagina)}
-              className="disabled:opacity-50 transition-opacity">
+                  </button>
+                ))
 
-                <Image src={ArrowForward} alt="Botão avançar"></Image>
+              }
 
-            </button>
 
-          </div>
+
+              <button
+                onClick={() => setPaginaAtual((paginaAtual) => paginaAtual<Math.ceil(consultasFiltradas.length/consulPorPagina) ? paginaAtual + 1 : paginaAtual)}
+                disabled={paginaAtual === Math.ceil(consultasFiltradas.length/consulPorPagina)}
+                className="disabled:opacity-50 transition-opacity">
+
+                  <Image src={ArrowForward} alt="Botão avançar"></Image>
+
+              </button>
+
+            </div>
+          : null
+          }
+
         </div>
       </div>
     )
