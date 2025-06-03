@@ -40,7 +40,7 @@ const ConsultCardVetor: ConsultCardType[] = [
 
 {
 id: 1,
-Date: "2025-03-31",
+Date: "31/03",
 Time: "07:00",
 typeConsul: "FIRST",
 doctorName: "Larissa",
@@ -53,7 +53,7 @@ onClick: () => console.log("Consulta 1 selecionada"),
 
 {
 id: 2,
-Date: "2025-04-05",
+Date: "05/04",
 Time: "14:00",
 typeConsul: "VACINATION",
 doctorName: "Lais",
@@ -66,7 +66,7 @@ onClick: () => console.log("Consulta 2 selecionada"),
 
 {
 id: 3,
-Date: "2025-07-27",
+Date: "27/07",
 Time: "09:00",
 typeConsul: "RETURN",
 doctorName: "Larissa",
@@ -79,7 +79,7 @@ onClick: () => console.log("Consulta 3 selecionada"),
 
 {
 id: 4,
-Date: "2025-07-13",
+Date: "13/07",
 Time: "16:30",
 typeConsul: "CHECKUP",
 doctorName: "Manuel",
@@ -92,7 +92,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 5,
-Date: "2025-07-19",
+Date: "19/07",
 Time: "16:30",
 typeConsul: "VACINATION",
 doctorName: "Manuel",
@@ -105,7 +105,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 6,
-Date: "2025-07-29",
+Date: "29/07",
 Time: "16:30",
 typeConsul: "FIRST",
 doctorName: "Manuel",
@@ -118,7 +118,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 7,
-Date: "2025-05-13",
+Date: "13/05",
 Time: "16:30",
 typeConsul: "CHECKUP",
 doctorName: "Manuel",
@@ -131,7 +131,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 8,
-Date: "2025-07-29",
+Date: "29/07",
 Time: "13:30",
 typeConsul: "CHECKUP",
 doctorName: "Lais",
@@ -144,7 +144,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 9,
-Date: "2025-08-01",
+Date: "01/08",
 Time: "10:00",
 typeConsul: "RETURN",
 doctorName: "Lais",
@@ -157,7 +157,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 10,
-Date: "2025-08-05",
+Date: "05/08",
 Time: "08:00",
 typeConsul: "CHECKUP",
 doctorName: "Lais",
@@ -170,7 +170,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 11,
-Date: "2025-08-05",
+Date: "05/08",
 Time: "10:00",
 typeConsul: "VACINATION",
 doctorName: "Lais",
@@ -183,7 +183,7 @@ onClick: () => console.log("Consulta 4 selecionada"),
 
 {
 id: 12,
-Date: "2025-08-05",
+Date: "05/08",
 Time: "14:00",
 typeConsul: "FIRST",
 doctorName: "Larissa",
