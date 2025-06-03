@@ -11,6 +11,7 @@ import LeftTopBar from "./TopBar/LeftTopBar.svg";
 import RightTopBar from "./TopBar/RightTopBar.svg";
 import PlusIcon from "./Buttons/PlusIcon.svg";
 import CheckIcon from "./Buttons/CheckIcon.svg";
+import Calendar from "./calendar_month.svg";
 import Clock from "./alarm.svg";
 import Paw from "./paw.svg";
 import ArrowRight from "./arrow_right.svg";
@@ -31,6 +32,7 @@ export {
     Horse,
     Dog,
     downSignal,
+    Calendar,
     Clock,
     Paw,
     ArrowRight,
