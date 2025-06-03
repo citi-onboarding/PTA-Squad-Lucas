@@ -37,6 +37,10 @@ type ConsultForm = {
   species: PatientSpecie;
   patientAge: number;
   consultType: ConsType;
+  doctorName: string;
+  date: Date;
+  time: string;
+  description: string;
 };
 
 export default function RegisterPage() {
@@ -46,7 +50,11 @@ export default function RegisterPage() {
     tutorName: z.string().min(1, "Nome do tutor é obrigatório!"),
     species: z.nativeEnum(PatientSpecie, {required_error: "Selecione uma espécie!",}),
     patientAge: z.coerce.number().min(1, "Idade do paciente é obrigatória!"),
-    consultType: z.nativeEnum(ConsType, { required_error: "Tipo da consulta é obrigatório!" })
+    consultType: z.nativeEnum(ConsType, { required_error: "Tipo da consulta é obrigatório!" }),
+    doctorName: z.string().min(1, "Nome do medico é obrigatório"),
+    date: z.date({required_error: "Data da consulta é obrigatória"}),
+    time: z.string().min(1, "Horário da consulta é obrigatório"),
+    description: z.string().min(1, "Descrição do problema é obrigatória"),
   });
   
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
@@ -192,6 +200,39 @@ export default function RegisterPage() {
               </select>
             </div>
           </div>
+          <div className='flex flex-row gap-6'>
+            {/*Médico responsável*/}
+            <div className = 'w-[696px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Médico responsável</p>        
+                <input {...register("doctorName")} 
+                type="text" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+            {/*Data do atendimento*/}
+            <div className = 'w-[390px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Data do atendimento</p>        
+                <input {...register("date")} 
+                type="date" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+            {/*Horário do atendimento*/}
+            <div className = 'w-[390px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Horário do atendimento</p>        
+                <input {...register("time")} 
+                type="time" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+          </div>
+          {/*Descrição do Problema*/}
+            <div className = 'w-full pt-8  flex flex-col gap-3'>
+                <p className='font-bold text-4'>Descrição do Problema</p>        
+                <textarea {...register("description")}  
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
         </div>
       </div>
     </form>

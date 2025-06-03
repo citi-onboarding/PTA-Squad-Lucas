@@ -17,8 +17,6 @@ import ArrowRight from "./arrow_right.svg";
 import ArrowBack from "./arrow_back.svg";
 import ArrowForward from "./arrow_forward.svg";
 
-
-
 export {
     LogoCITi,
     LeftTopBar,
