@@ -235,7 +235,11 @@ export default function ServicePage() {
       
   
   function AplicarFiltro(){
-    setFiltro(input)
+
+    if (input!=="") {
+      setFiltro(input)
+    }
+      
   }
 
 
@@ -243,7 +247,7 @@ export default function ServicePage() {
 
     let consultasFiltradas = ConsultCardVetor
       .filter(card => card.Date<(dataAtual))
-      .filter(card =>card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
+      .filter(card => card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
       .filter(card => !inicio || card.Date>=(inicio))
       .filter(card => !fim || card.Date<=(fim));
 
@@ -305,20 +309,22 @@ export default function ServicePage() {
       <div className="flex flex-row w-full mb-48">
         
 
-        <Tabs defaultValue="history" className="w-full ">
+        <Tabs defaultValue="scheduling" className="w-full ">
           
           <div className="flex flew-row items-center w-full mb-8 justify-between">
 
             {/* Histórico ou agendamento */}
-            <TabsList className="flex flex-row  bg-[#F0F0F0] h-14 w-60 gap-2 p-3 rounded-xl">
+            <TabsList className="flex flex-row  bg-[#F0F0F0] h-14 w-auto gap-2 p-3 rounded-xl">
 
-              <TabsTrigger value="history" className=" font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
+              <TabsTrigger value="scheduling" className="font-normal text-black py-2 px-2 rounded-lg data-[state=active]:bg-white">
+                Agendamento
+              </TabsTrigger>
+
+              <TabsTrigger value="history" className=" font-normal text-black py-2 px-2 rounded-lg data-[state=active]:bg-white">
                 Histórico
               </TabsTrigger>
 
-              <TabsTrigger value="scheduling" className="font-normal text-black py-2 px-3 rounded-lg data-[state=active]:bg-white">
-                Agendamento
-              </TabsTrigger>
+
 
             </TabsList>
             
