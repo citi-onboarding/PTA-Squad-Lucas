@@ -15,7 +15,7 @@ async function MailHandler(emailConfig:{
       service: "gmail",
       auth: {
         user: process.env.EMAIL,
-        pass: process.env.PASSWORD
+        pass: process.env.PASSWORD,
       }
     });
 
