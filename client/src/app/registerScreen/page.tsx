@@ -14,6 +14,9 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios  from 'axios';
+import { Button } from '@/components'; 
+import api from '@/services/api';
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -59,9 +62,27 @@ export default function RegisterPage() {
   
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
   
-  const handleChange = (data: ConsultForm) => {
-    console.log("Form data:", data);
-  };
+  const handleChange = async (data: ConsultForm) => {
+     try {
+        const searchParams = new URLSearchParams({
+          name: data.patientName,
+          tutorName: data.tutorName,
+          age: String(data.patientAge),
+          species: data.species
+        }).toString();
+
+        const response = await api.get(`/patient/search?${searchParams}`);
+        
+        alert("Paciente já existente!");        
+      } catch (error: any) {
+        if (error.response?.status === 404) {
+          alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+        } else {
+          console.error("Erro ao verificar paciente existente", error);
+          alert("Erro inesperado ao buscar paciente.");
+        }
+      }
+  }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
@@ -71,6 +92,7 @@ export default function RegisterPage() {
   
   return (
     <form onSubmit={handleSubmit(handleChange)}>
+      <button type="submit">Enviar</button>
       <div className = "pt-12 px-48">
         
         <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={handleReturn}>
@@ -233,6 +255,14 @@ export default function RegisterPage() {
                 placeholder='Digite aqui...' 
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
             </div>
+          <div>
+            <Button 
+              text="FInalizar Cadastro" 
+              onClickAction={handleSubmit(handleChange)} 
+              color="#50E678" 
+              width={208} 
+            />
+          </div>
         </div>
       </div>
     </form>
