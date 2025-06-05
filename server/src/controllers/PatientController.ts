@@ -23,20 +23,18 @@ class PatientController implements Crud{
     };
 
     search = async (request: Request, response: Response) => {
-        console.log("Searching for patient...");
-        const { name, tutorName, age, species } = request.query;
-        console.log(name, tutorName, age, species);
+        const { name, tutorName, age, species } = request.body;
 
         if (!name || !tutorName || !age || !species) {
             return response.status(400).send({ message: "Parâmetros incompletos" });
         }
 
-        const existingPatient = await prisma.patient.findUnique({
+        const existingPatient = await prisma.patient.findFirst({
             where: {
-            name: String(name),
-            tutorName: String(tutorName),
-            age: Number(age),
-            species: String(species) as any
+                name: String(name),
+                tutorName: String(tutorName),
+                age: Number(age),
+                species: String(species) as any
             }
         });
 
