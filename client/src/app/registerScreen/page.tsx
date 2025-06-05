@@ -72,16 +72,25 @@ export default function RegisterPage() {
         }).toString();
 
         const response = await api.get(`/patient/search?${searchParams}`);
-        
-        alert("Paciente já existente!");        
+        console.log("Paciente encontrado:", response.data);
+        //------------------------
+        // Se o paciente já existir, pegar o id e mandar como parametro pra consulta
+        alert("Paciente já existente!");  
+
       } catch (error: any) {
         if (error.response?.status === 404) {
           alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+          const response = await api.get(`/patient?$}`);
+
         } else {
           console.error("Erro ao verificar paciente existente", error);
           alert("Erro inesperado ao buscar paciente.");
         }
       }
+  }
+
+  function handleGet() {
+    console.log("Clicou no botão de finalizar cadastro");
   }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
@@ -92,7 +101,6 @@ export default function RegisterPage() {
   
   return (
     <form onSubmit={handleSubmit(handleChange)}>
-      <button type="submit">Enviar</button>
       <div className = "pt-12 px-48">
         
         <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={handleReturn}>
