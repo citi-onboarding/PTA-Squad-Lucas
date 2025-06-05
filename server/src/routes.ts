@@ -2,7 +2,7 @@ import express from "express";
 import userController from "./controllers/UserController";
 import patientController from "./controllers/PatientController";
 import ConsultController from "./controllers/ConsultController";
-
+import { sendMail } from "./controllers/mailController";
 
 const routes = express.Router();
 
@@ -29,5 +29,7 @@ routes.get("/consultation/patient/:patientId", ConsultController.getConsultation
 routes.get("/consultation/doctor/:doctorName", ConsultController.getConsultationByDoctorName);
 routes.put("/consultation/:id", ConsultController.updateConsultation);
 routes.delete("/consultation/:id", ConsultController.deleteConsultation);
+
+routes.post("/send", sendMail);
 
 export default routes;
