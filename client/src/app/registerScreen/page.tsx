@@ -49,7 +49,11 @@ type ConsultForm = {
   description: string;
 };
 
+
 export default function RegisterPage() {
+  
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   const formSchema = z.object({
     patientName: z.string().min(1, "Nome do paciente é obrigatório"),
@@ -68,7 +72,6 @@ export default function RegisterPage() {
   const handleChange = async (data: ConsultForm) => {
 
     try {
-      console.log("passou aqui");
       const response = await api.get('/patient/search', {
         params: {
           name: data.patientName,
@@ -76,7 +79,6 @@ export default function RegisterPage() {
           species: data.species
         }
       });
-      console.log("passou ate aqui");
 
       const patientId = response.data.id;
       const datetime = `${data.date}T${data.time}:00.000Z`;
@@ -91,7 +93,6 @@ export default function RegisterPage() {
 
     } catch (error: any) {
       if (error.response?.status === 404) {
-        alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
 
         try {
           const response = await api.post('/patient', {
@@ -118,14 +119,15 @@ export default function RegisterPage() {
             doctorName: data.doctorName.trim(),
             patientId: patientId
           });
-
+          
+          setModalOpen(true);
         } catch (e) {
           alert("Erro ao cadastrar paciente ou consulta.");
         }
-      } else {
-        alert("Erro inesperado ao buscar paciente.");
-      }
+      } 
     }
+
+
   };
 
  
@@ -303,12 +305,14 @@ export default function RegisterPage() {
             
           </div>
         </div>
+        <button
+          type="submit"
+          className="bg-[#50E678] text-white font-bold text-base w-[205px] h-12 rounded-full shadow-md hover:bg-[#50E678] hover:opacity-80 active:opacity-50 transition flex items-center justify-center mt-10 ml-auto"
+          >
+          Finalizar Cadastro
+        </button>
         <ModalRegistration
-          page1 = {<button
-            type="submit" 
-            className="text-white text-base justify-center bg-[#50E678] w-[205px] h-[48px] rounded-full shadow-md hover:bg-[#50E678] hover:text-white hover:opacity-80 active:opacity-50 transition">
-            Finalizar Cadastro
-            </button>}/>
+            open={modalOpen} setOpen={setModalOpen}/>
       </div>
 
     </form>
