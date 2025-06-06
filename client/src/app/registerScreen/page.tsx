@@ -19,6 +19,7 @@ import { Button } from '@/components';
 import api from '@/services/api';
 import { Search } from 'lucide-react';
 import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+import { ModalRegistration } from "@/components"
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
