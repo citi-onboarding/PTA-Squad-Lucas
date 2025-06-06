@@ -18,6 +18,7 @@ import ArrowRight from "./arrow_right.svg";
 import ArrowBack from "./arrow_back.svg";
 import ArrowForward from "./arrow_forward.svg";
 import CloseButton from "./Botao_close.svg"
+import CheckCircle from "./task_alt.svg"
 
 export {
     LogoCITi,
@@ -40,4 +41,5 @@ export {
     ArrowBack,
     ArrowForward,
     CloseButton,
+    CheckCircle,
  };

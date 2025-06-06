@@ -4,6 +4,7 @@ import consultCard from "./consultCard"
 import History from "./History";
 import ConsultCardHistory from "./ConsultCardHistory";
 import ModalRegistration from "./ModalRegistration"
+import ModalNewConsul from "./ModalNewConsul";
 
 export {
      topBar as TopBar,
@@ -11,5 +12,6 @@ export {
      consultCard as ConsultCard,
      History as History,
      ConsultCardHistory as ConsultCardHistory,
-     ModalRegistration
+     ModalRegistration,
+     ModalNewConsul,
 };
