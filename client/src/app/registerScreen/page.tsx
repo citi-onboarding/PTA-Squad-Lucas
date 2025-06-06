@@ -68,14 +68,15 @@ export default function RegisterPage() {
   const handleChange = async (data: ConsultForm) => {
 
     try {
+      console.log("passou aqui");
       const response = await api.get('/patient/search', {
         params: {
           name: data.patientName,
           tutorName: data.tutorName,
-          age: String(data.patientAge),
           species: data.species
         }
       });
+      console.log("passou ate aqui");
 
       const patientId = response.data.id;
       const datetime = `${data.date}T${data.time}:00.000Z`;
@@ -104,7 +105,6 @@ export default function RegisterPage() {
             params: {
               name: data.patientName,
               tutorName: data.tutorName,
-              age: String(data.patientAge),
               species: data.species
             }
           });
@@ -300,14 +300,15 @@ export default function RegisterPage() {
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
             </div>
           <div>
-            <button
-            type="submit">
             
-              Pedro
-            </button>
           </div>
         </div>
-        <ModalRegistration/>
+        <ModalRegistration
+          page1 = {<button
+            type="submit" 
+            className="text-white text-base justify-center bg-[#50E678] w-[205px] h-[48px] rounded-full shadow-md hover:bg-[#50E678] hover:text-white hover:opacity-80 active:opacity-50 transition">
+            Finalizar Cadastro
+            </button>}/>
       </div>
 
     </form>

@@ -4,8 +4,8 @@ import {Sheep,
     Cow, 
     Horse,
     Dog,
-    clock,
-    paw,
+    Clock,
+    Paw,
   } from "@/assets/index"
 import { time } from "console";
 import Image from "next/image";
@@ -67,7 +67,7 @@ export default function consultCard({
     COW: Cow,
     HORSE: Horse,
     DOG: Dog,
-  }[pacientSpecie] || paw
+  }[pacientSpecie] || Paw
 
   return (
     <button type="button"
@@ -77,7 +77,7 @@ export default function consultCard({
     >
       <div
       className="w-[51px] h-[90px] px-[6px] py-[12px] rounded-[4px] bg-white font-bold text-sm flex flex-col justfy-center items-center">
-        <Image src={clock} alt="imagem de um relógio"
+        <Image src={Clock} alt="imagem de um relógio"
         className="w-5 h-5"
         ></Image>
         <p>{sDay}/{sMonth}</p>

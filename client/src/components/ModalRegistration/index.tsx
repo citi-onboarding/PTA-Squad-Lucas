@@ -15,12 +15,16 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function ModalRegistration() {
+type Props = {
+  page1: React.ReactNode;
+}
+export default function ModalRegistration({page1}: Props) {
   return (
     <Dialog>
       <form className="flex justify-end  mt-16 mb-10 w-full">
         <DialogTrigger asChild >
-          <Button variant="outline" className="text-white text-base justify-center bg-[#50E678] w-[205px] h-[48px] rounded-full shadow-md hover:bg-[#50E678] hover:text-white hover:opacity-80 active:opacity-50 transition">Finalizar Cadastro</Button>
+          {/* <Button variant="outline" className="text-white text-base justify-center bg-[#50E678] w-[205px] h-[48px] rounded-full shadow-md hover:bg-[#50E678] hover:text-white hover:opacity-80 active:opacity-50 transition">Finalizar Cadastro</Button> */}
+          {page1}
         </DialogTrigger>
         <DialogContent className="w-[408px] h-[423px] p-10 !rounded-3xl">
           <DialogHeader className="items-center">
