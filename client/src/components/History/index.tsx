@@ -4,162 +4,35 @@ import Image from "next/image";
 import { ArrowBack } from "@/assets";
 import { ArrowForward } from "@/assets";
 
-interface  ConsultCardType {
-id: number; 
-DateTime: string;
-typeConsul: string;
-doctorName: string;
-pacientName: string;
-pacientTutorName: string;
-pacientAge: number;
-pacientSpecie: string;
-onClick: () => void;
-key?: number;
-};
+interface ConsulData  {
+    id: number,
+    datetime: string,
+    type: string,
+    description: string,
+    doctorName: string,
+    patientId: number,
+    patient: {
+      id: number,
+      name: string,
+      tutorName: string,
+      age: number,
+      species: string,
+    }}
+
+interface HistoryProps {
+    vector: ConsulData[];
+    onClick: () => void;
+}
 
 
-const ConsultCardVetor: ConsultCardType[] = [
-
-  {
-  id: 1,
-  DateTime: "2025-05-24T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-08-01T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Magali",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-06-01T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-06-05T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-05-14T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2024-03-27T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2026-05-14T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-    {
-  id: 1,
-  DateTime: "2025-05-14T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-05-14T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-
-  {
-  id: 1,
-  DateTime: "2025-05-14T14:30:00.000Z",
-  typeConsul: "FIRST",
-  doctorName: "Monica",
-  pacientName: "Miau",
-  pacientTutorName: "Carlos",
-  pacientAge: 3,
-  pacientSpecie: "CAT",
-  onClick: () => console.log("Consulta 1 selecionada"),
-  },
-];
-
-export default function History({
-  id,
-  DateTime,
-  typeConsul,
-  doctorName,
-  pacientTutorName,
-  pacientName,
-  pacientAge,
-  pacientSpecie,
-  onClick,
-}: ConsultCardType) {
+export default function History({ vector, onClick }: HistoryProps) {
 
   let dataAtual: string = new Date().toISOString()
   
 
   function Paginacao(){
-    let consultasFiltradas = ConsultCardVetor
-      .filter(card =>card.id === (id))
-      .filter(card => card.DateTime<(dataAtual))
+    let consultasFiltradas = vector
+      .filter(card => card.datetime<(dataAtual))
     
     const [paginaAtual, setPaginaAtual] = useState(1)
     const consulPorPagina = 5
@@ -188,14 +61,14 @@ export default function History({
               <ConsultCardHistory
               key={card.id}
               id={card.id}
-              DateTime={card.DateTime}
-              typeConsul={card.typeConsul}
+              DateTime={card.datetime}
+              typeConsul={card.type}
               doctorName={card.doctorName}
-              pacientName={card.pacientName}
-              pacientTutorName={card.pacientTutorName}
-              pacientAge={card.pacientAge}
-              pacientSpecie={card.pacientSpecie}
-              onClick={card.onClick}/>))
+              pacientName={card.patient.name}
+              pacientTutorName={card.patient.tutorName}
+              pacientAge={card.patient.age}
+              pacientSpecie={card.patient.species}
+              onClick={onClick}/>))
             }
           </div>
           

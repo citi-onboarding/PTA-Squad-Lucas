@@ -1,10 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CirclePlus } from 'lucide-react';
 import { Button } from "@/components";
-import {ConsultCard} from "@/components"
+import {ConsulCard} from "@/components"
 import { 
   lessThen,
   Sheep,
@@ -17,191 +17,48 @@ import {
   PlusIcon,
   Calendar,
 } from '@/assets';
+import consulDetail from "../consulDetail/page";
+import { getAllConsul } from "@/services/ConsulApi";
+import { date } from "zod";
 
 
 
-interface  ConsultCardType {
-id: number; 
-Date: string;
-Time: string;
-typeConsul: string;
-doctorName: string;
-pacientName: string;
-pacientTutorName: string;
-pacientAge: number;
-pacientSpecie: string;
-onClick: () => void;
-key?: number;
-};
+interface ConsulData  {
+    id: number,
+    datetime: string,
+    type: string,
+    description: string,
+    doctorName: string,
+    patientId: number,
+    patient: {
+      id: number,
+      name: string,
+      tutorName: string,
+      age: number,
+      species: string,
+    }}
 
 
-// Preenchendo o vetor
-const ConsultCardVetor: ConsultCardType[] = [
+// aqui tinha um vetor enorme agora tem que usar a api pra botar esse veto modifique aqui em baixo pra isso
 
-{
-id: 1,
-Date: "31/03",
-Time: "07:00",
-typeConsul: "FIRST",
-doctorName: "Larissa",
-pacientName: "Miau",
-pacientTutorName: "Carlos",
-pacientAge: 3,
-pacientSpecie: "CAT",
-onClick: () => console.log("Consulta 1 selecionada"),
-},
-
-{
-id: 2,
-Date: "05/04",
-Time: "14:00",
-typeConsul: "VACINATION",
-doctorName: "Lais",
-pacientName: "Thor",
-pacientTutorName: "Luís",
-pacientAge: 1,
-pacientSpecie: "DOG",
-onClick: () => console.log("Consulta 2 selecionada"),
-},
-
-{
-id: 3,
-Date: "27/07",
-Time: "09:00",
-typeConsul: "RETURN",
-doctorName: "Larissa",
-pacientName: "Bela",
-pacientTutorName: "Maria",
-pacientAge: 2,
-pacientSpecie: "SHEEP",
-onClick: () => console.log("Consulta 3 selecionada"),
-},
-
-{
-id: 4,
-Date: "13/07",
-Time: "16:30",
-typeConsul: "CHECKUP",
-doctorName: "Manuel",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "COW",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 5,
-Date: "19/07",
-Time: "16:30",
-typeConsul: "VACINATION",
-doctorName: "Manuel",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "PIG",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 6,
-Date: "29/07",
-Time: "16:30",
-typeConsul: "FIRST",
-doctorName: "Manuel",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "CAT",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 7,
-Date: "13/05",
-Time: "16:30",
-typeConsul: "CHECKUP",
-doctorName: "Manuel",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "HORSE",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 8,
-Date: "29/07",
-Time: "13:30",
-typeConsul: "CHECKUP",
-doctorName: "Lais",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "SHEEP",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 9,
-Date: "01/08",
-Time: "10:00",
-typeConsul: "RETURN",
-doctorName: "Lais",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "DOG",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 10,
-Date: "05/08",
-Time: "08:00",
-typeConsul: "CHECKUP",
-doctorName: "Lais",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "HORSE",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 11,
-Date: "05/08",
-Time: "10:00",
-typeConsul: "VACINATION",
-doctorName: "Lais",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "DOG",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-{
-id: 12,
-Date: "05/08",
-Time: "14:00",
-typeConsul: "FIRST",
-doctorName: "Larissa",
-pacientName: "Bidu",
-pacientTutorName: "Ana",
-pacientAge: 4,
-pacientSpecie: "HORSE",
-onClick: () => console.log("Consulta 4 selecionada"),
-},
-
-];
 
 
 
 
 export default function ServicePage() {
 
-  const dataAtual = "2025-06-01"
+  const [consultas, setConsultas] = useState<ConsulData[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getAllConsul();
+      setConsultas(data);
+    }
+    fetchData();
+  }, []);
+
+  const dataAtual = new Date().toISOString()
+  console.log(dataAtual)
   const [input, setInput] = useState("");
   const [filtro, setFiltro] = useState("");
   const [inicio, setInicio] = useState("")
@@ -209,25 +66,24 @@ export default function ServicePage() {
 
 
   function Agendamento() {
-    let consultasFiltradas = ConsultCardVetor
+    let consultasFiltradas = consultas
       .filter(card =>card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
-      .filter(card => card.Date>=(dataAtual))
-      .filter(card => !inicio || card.Date>=(inicio))
-      .filter(card => !fim || card.Date<=(fim));
+      .filter(card => card.datetime>=(dataAtual))
+      .filter(card => !inicio || card.datetime>=(inicio))
+      .filter(card => !fim || card.datetime<=(fim));
     
     return (consultasFiltradas.map(card => (
-                <ConsultCard
+                <ConsulCard
                 key={card.id}
                 id={card.id}
-                Date={card.Date}
-                Time={card.Time}
-                typeConsul={card.typeConsul}
+                DateTime={card.datetime}
+                typeConsul={card.type}
                 doctorName={card.doctorName}
-                pacientName={card.pacientName}
-                pacientTutorName={card.pacientTutorName}
-                pacientAge={card.pacientAge}
-                pacientSpecie={card.pacientSpecie}
-                onClick={card.onClick}
+                pacientName={card.patient.name}
+                pacientTutorName={card.patient.tutorName}
+                pacientAge={card.patient.age}
+                pacientSpecie={card.patient.species}
+                description={card.description}
                 />
               )))
   }
@@ -245,25 +101,24 @@ export default function ServicePage() {
 
   function Historico() {
 
-    let consultasFiltradas = ConsultCardVetor
-      .filter(card => card.Date<(dataAtual))
+    let consultasFiltradas = consultas
+      .filter(card => card.datetime<(dataAtual))
       .filter(card => card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
-      .filter(card => !inicio || card.Date>=(inicio))
-      .filter(card => !fim || card.Date<=(fim));
+      .filter(card => !inicio || card.datetime>=(inicio))
+      .filter(card => !fim || card.datetime<=(fim));
 
     return (consultasFiltradas.map(card => (
-                <ConsultCard
+                <ConsulCard
                 key={card.id}
                 id={card.id}
-                Date={card.Date}
-                Time={card.Time}
-                typeConsul={card.typeConsul}
+                DateTime={card.datetime}
+                typeConsul={card.type}
                 doctorName={card.doctorName}
-                pacientName={card.pacientName}
-                pacientTutorName={card.pacientTutorName}
-                pacientAge={card.pacientAge}
-                pacientSpecie={card.pacientSpecie}
-                onClick={card.onClick}
+                pacientName={card.patient.name}
+                pacientTutorName={card.patient.tutorName}
+                pacientAge={card.patient.age}
+                pacientSpecie={card.patient.species}
+                description = {card.description}
                 />
               )))
   }

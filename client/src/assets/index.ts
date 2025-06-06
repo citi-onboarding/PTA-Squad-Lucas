@@ -17,6 +17,7 @@ import Paw from "./paw.svg";
 import ArrowRight from "./arrow_right.svg";
 import ArrowBack from "./arrow_back.svg";
 import ArrowForward from "./arrow_forward.svg";
+import task_alt from "./task_alt.svg"
 
 export {
     LogoCITi,
@@ -38,4 +39,5 @@ export {
     ArrowRight,
     ArrowBack,
     ArrowForward,
+    task_alt,
  };
