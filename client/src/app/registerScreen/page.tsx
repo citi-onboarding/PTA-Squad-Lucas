@@ -14,7 +14,11 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {ModalRegistration} from "@/components"
+import axios  from 'axios';
+import { Button } from '@/components'; 
+import api from '@/services/api';
+import { Search } from 'lucide-react';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -58,11 +62,100 @@ export default function RegisterPage() {
     description: z.string().min(1, "Descrição do problema é obrigatória"),
   });
   
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
-  const handleChange = (data: ConsultForm) => {
-    console.log("Form data:", data);
+  const handleChange = async (data: ConsultForm) => {
+    console.log("handleChange");
+    console.log("Dados do formulário:", data);
+
+    try {
+      const response = await api.get('/patient/search', {
+        params: {
+          name: data.patientName,
+          tutorName: data.tutorName,
+          age: String(data.patientAge),
+          species: data.species
+        }
+      });
+
+      console.log("Paciente encontrado:", response.data);
+      alert("Paciente já existente!");
+
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+
+        try {
+          console.log("Cadastrando novo paciente...");
+          const response = await api.post('/patient', {
+            name: data.patientName.trim(),
+            tutorName: data.tutorName.trim(),
+            age: Number(data.patientAge),
+            species: data.species.toUpperCase() 
+          });
+          console.log("Paciente cadastrado");
+          
+          const respse = await api.get('/patient/search', {
+            params: {
+              name: data.patientName,
+              tutorName: data.tutorName,
+              age: String(data.patientAge),
+              species: data.species
+            }
+          });
+
+          const patientId = respse.data.id;
+
+          console.log("ID do paciente cadastrado:", patientId);
+
+          const datetime = `${data.date}T${data.time}:00.000Z`;
+
+          console.log("Cadastrando consulta...");
+          
+          const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+
+          console.log("Consulta cadastrada:", consultResponse.data);
+          alert("Paciente e consulta cadastrados com sucesso!");
+
+        } catch (e) {
+          console.error("Erro ao cadastrar paciente ou consulta", e);
+          alert("Erro ao cadastrar paciente ou consulta.");
+        }
+      } else {
+        console.error("Erro ao verificar paciente existente", error);
+        alert("Erro inesperado ao buscar paciente.");
+      }
+    }
   };
+
+
+  // async function handleGet(data: ConsultForm) {
+  //   try{
+  //     console.log("handle get");
+  //     const searchParams = new URLSearchParams({
+  //       name: data.patientName,
+  //       tutorName: data.tutorName,
+  //       age: String(data.patientAge),
+  //       species: data.species
+  //     }).toString();
+  //     const response = await api.get(`/patient/search?${searchParams}`);
+  //     console.log("Paciente encontrado:", response.data);
+  //   } catch (error: any) {
+  //     if (error.response?.status === 404) {
+  //       alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+  //     } else {
+  //       console.error("Erro ao verificar paciente existente", error);
+  //       alert("Erro inesperado ao buscar paciente.");
+  //     }
+  //   }
+    
+  // }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
@@ -234,6 +327,13 @@ export default function RegisterPage() {
                 placeholder='Digite aqui...' 
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
             </div>
+          <div>
+            <button
+            type="submit">
+            
+              Pedro
+            </button>
+          </div>
         </div>
         <ModalRegistration/>
       </div>
