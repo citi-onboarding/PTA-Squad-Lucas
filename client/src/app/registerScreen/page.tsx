@@ -60,9 +60,10 @@ export default function RegisterPage() {
     description: z.string().min(1, "Descrição do problema é obrigatória"),
   });
   
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
   const handleChange = async (data: ConsultForm) => {
+    console.log("Dados do formulário:", data);
      try {
         const searchParams = new URLSearchParams({
           name: data.patientName,
@@ -71,7 +72,15 @@ export default function RegisterPage() {
           species: data.species
         }).toString();
 
-        const response = await api.get(`/patient/search?${searchParams}`);
+        const response = await api.get('/patient/search', {
+  params: {
+    name: data.patientName,
+    tutorName: data.tutorName,
+    species: data.species,
+  }
+});
+
+
         console.log("Paciente encontrado:", response.data);
         //------------------------
         // Se o paciente já existir, pegar o id e mandar como parametro pra consulta
@@ -89,8 +98,16 @@ export default function RegisterPage() {
       }
   }
 
-  function handleGet() {
-    console.log("Clicou no botão de finalizar cadastro");
+  async function handleGet(data: ConsultForm) {
+    const searchParams = new URLSearchParams({
+          name: data.patientName,
+          tutorName: data.tutorName,
+          age: String(data.patientAge),
+          species: data.species
+        }).toString();
+
+        const response = await api.get(`/patient/search?${searchParams}`);
+        console.log("Paciente encontrado:", response.data);
   }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
@@ -264,12 +281,11 @@ export default function RegisterPage() {
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
             </div>
           <div>
-            <Button 
-              text="FInalizar Cadastro" 
-              onClickAction={handleSubmit(handleChange)} 
-              color="#50E678" 
-              width={208} 
-            />
+            <button
+            type="submit">
+            
+              Pedro
+            </button>
           </div>
         </div>
       </div>

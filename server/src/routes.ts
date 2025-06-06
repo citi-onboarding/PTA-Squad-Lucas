@@ -13,7 +13,7 @@ routes.patch("/user/:id", userController.update);
 
 
 routes.post("/patient",patientController.create);
-routes.get("/patient/search", patientController.search);
+routes.get("/patient/search/", patientController.search);
 routes.get("/patient", patientController.get);
 routes.get("/patient/:id",patientController.getById);
 routes.delete("/patient/:id",patientController.delete);

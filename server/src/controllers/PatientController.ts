@@ -23,9 +23,8 @@ class PatientController implements Crud{
     };
 
     search = async (request: Request, response: Response) => {
-        const { name, tutorName, age, species } = request.body;
-
-        if (!name || !tutorName || !age || !species) {
+        const { name, tutorName, species } = request.query;
+        if (!name || !tutorName || !species) {
             return response.status(400).send({ message: "Parâmetros incompletos" });
         }
 
@@ -33,7 +32,6 @@ class PatientController implements Crud{
             where: {
                 name: String(name),
                 tutorName: String(tutorName),
-                age: Number(age),
                 species: String(species) as any
             }
         });
