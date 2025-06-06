@@ -108,7 +108,7 @@ const {
             page1={<div/>}
             page2={<RegisterPage></RegisterPage>}
         />   
-            <div className="flex flex-row px-[100px]">
+            <div className="flex flex-row px-[100px] justify-between">
             <div className="w-[624px] flex flex-col gap-4">
                 <div className="font-bold flex flex-row gap-4 text-[39px] items-center">
                     <button onClick={handleReturn}><Image src={ArrowBack} alt="Botao de voltar" className="w-8 h-8"></Image></button>
@@ -122,10 +122,10 @@ const {
                             <p className="font-bold text-xl">{pacientName}</p>
                             <p className="text-xl">{pacientAge} anos</p>
                         </div>
-                            <div className="w-16 h-16 gap-3">
-                            <p>{pacientTutorName}</p>
-                            <p>{doctorName}</p>
-                        </div>
+                          <div className="gap-3 flex flex-col">
+                          <p>{pacientTutorName}</p>
+                          <p>{doctorName}</p>
+                          </div>
                     </div>
                 </div>
                 <p className="font-bold">Descrição do Problema:</p>
