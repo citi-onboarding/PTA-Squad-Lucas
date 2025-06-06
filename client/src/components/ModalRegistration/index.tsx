@@ -22,7 +22,7 @@ export default function ModalRegistration() {
         <DialogTrigger asChild >
           <Button variant="outline" className="text-white text-base justify-center bg-[#50E678] w-[205px] h-[48px] rounded-full shadow-md hover:bg-[#50E678] hover:text-white hover:opacity-80 active:opacity-50 transition">Finalizar Cadastro</Button>
         </DialogTrigger>
-        <DialogContent className="w-[408px] h-[423px] p-10">
+        <DialogContent className="w-[408px] h-[423px] p-10 !rounded-3xl">
           <DialogHeader className="items-center">
             <DialogTitle className="mb-6"><Image src={LeftTopBar} alt="Logo CITi"/></DialogTitle>
             <DialogDescription className="text-base text-black mx-10 text-center">
