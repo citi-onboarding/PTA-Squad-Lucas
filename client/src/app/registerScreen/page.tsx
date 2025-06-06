@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios  from 'axios';
 import { Button } from '@/components'; 
 import api from '@/services/api';
+import { Search } from 'lucide-react';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -63,52 +65,88 @@ export default function RegisterPage() {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
   const handleChange = async (data: ConsultForm) => {
+    console.log("handleChange");
     console.log("Dados do formulário:", data);
-     try {
-        const searchParams = new URLSearchParams({
+
+    try {
+      const response = await api.get('/patient/search', {
+        params: {
           name: data.patientName,
           tutorName: data.tutorName,
           age: String(data.patientAge),
           species: data.species
-        }).toString();
-
-        const response = await api.get('/patient/search', {
-  params: {
-    name: data.patientName,
-    tutorName: data.tutorName,
-    species: data.species,
-  }
-});
-
-
-        console.log("Paciente encontrado:", response.data);
-        //------------------------
-        // Se o paciente já existir, pegar o id e mandar como parametro pra consulta
-        alert("Paciente já existente!");  
-
-      } catch (error: any) {
-        if (error.response?.status === 404) {
-          alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
-          const response = await api.get(`/patient?$}`);
-
-        } else {
-          console.error("Erro ao verificar paciente existente", error);
-          alert("Erro inesperado ao buscar paciente.");
         }
+      });
+
+      console.log("Paciente encontrado:", response.data);
+      alert("Paciente já existente!");
+
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+
+        try {
+          console.log("Cadastrando novo paciente...");
+          const response = await api.post('/patient', {
+            name: data.patientName.trim(),
+            tutorName: data.tutorName.trim(),
+            age: Number(data.patientAge),
+            species: data.species.toUpperCase() 
+          });
+          console.log("Paciente cadastrado");
+
+          const patientId = response.data.id;
+
+          console.log("ID do paciente cadastrado:", patientId);
+
+          const datetime = `${data.date}T${data.time}:00.000Z`;
+
+          console.log("Cadastrando consulta...");
+          
+          const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+
+          console.log("Consulta cadastrada:", consultResponse.data);
+          alert("Paciente e consulta cadastrados com sucesso!");
+
+        } catch (e) {
+          console.error("Erro ao cadastrar paciente ou consulta", e);
+          alert("Erro ao cadastrar paciente ou consulta.");
+        }
+      } else {
+        console.error("Erro ao verificar paciente existente", error);
+        alert("Erro inesperado ao buscar paciente.");
       }
-  }
+    }
+  };
 
-  async function handleGet(data: ConsultForm) {
-    const searchParams = new URLSearchParams({
-          name: data.patientName,
-          tutorName: data.tutorName,
-          age: String(data.patientAge),
-          species: data.species
-        }).toString();
 
-        const response = await api.get(`/patient/search?${searchParams}`);
-        console.log("Paciente encontrado:", response.data);
-  }
+  // async function handleGet(data: ConsultForm) {
+  //   try{
+  //     console.log("handle get");
+  //     const searchParams = new URLSearchParams({
+  //       name: data.patientName,
+  //       tutorName: data.tutorName,
+  //       age: String(data.patientAge),
+  //       species: data.species
+  //     }).toString();
+  //     const response = await api.get(`/patient/search?${searchParams}`);
+  //     console.log("Paciente encontrado:", response.data);
+  //   } catch (error: any) {
+  //     if (error.response?.status === 404) {
+  //       alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
+  //     } else {
+  //       console.error("Erro ao verificar paciente existente", error);
+  //       alert("Erro inesperado ao buscar paciente.");
+  //     }
+  //   }
+    
+  // }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
