@@ -66,8 +66,6 @@ export default function RegisterPage() {
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
   const handleChange = async (data: ConsultForm) => {
-    console.log("handleChange");
-    console.log("Dados do formulário:", data);
 
     try {
       const response = await api.get('/patient/search', {
@@ -79,22 +77,28 @@ export default function RegisterPage() {
         }
       });
 
-      console.log("Paciente encontrado:", response.data);
-      alert("Paciente já existente!");
+      const patientId = response.data.id;
+      const datetime = `${data.date}T${data.time}:00.000Z`;
+
+      const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
 
     } catch (error: any) {
       if (error.response?.status === 404) {
         alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
 
         try {
-          console.log("Cadastrando novo paciente...");
           const response = await api.post('/patient', {
             name: data.patientName.trim(),
             tutorName: data.tutorName.trim(),
             age: Number(data.patientAge),
             species: data.species.toUpperCase() 
           });
-          console.log("Paciente cadastrado");
           
           const respse = await api.get('/patient/search', {
             params: {
@@ -106,13 +110,7 @@ export default function RegisterPage() {
           });
 
           const patientId = respse.data.id;
-
-          console.log("ID do paciente cadastrado:", patientId);
-
-          const datetime = `${data.date}T${data.time}:00.000Z`;
-
-          console.log("Cadastrando consulta...");
-          
+          const datetime = `${data.date}T${data.time}:00.000Z`;          
           const consultResponse = await api.post('/consultation', {
             datetime: datetime,
             type: data.consultType.toUpperCase(),
@@ -121,42 +119,15 @@ export default function RegisterPage() {
             patientId: patientId
           });
 
-          console.log("Consulta cadastrada:", consultResponse.data);
-          alert("Paciente e consulta cadastrados com sucesso!");
-
         } catch (e) {
-          console.error("Erro ao cadastrar paciente ou consulta", e);
           alert("Erro ao cadastrar paciente ou consulta.");
         }
       } else {
-        console.error("Erro ao verificar paciente existente", error);
         alert("Erro inesperado ao buscar paciente.");
       }
     }
   };
 
-
-  // async function handleGet(data: ConsultForm) {
-  //   try{
-  //     console.log("handle get");
-  //     const searchParams = new URLSearchParams({
-  //       name: data.patientName,
-  //       tutorName: data.tutorName,
-  //       age: String(data.patientAge),
-  //       species: data.species
-  //     }).toString();
-  //     const response = await api.get(`/patient/search?${searchParams}`);
-  //     console.log("Paciente encontrado:", response.data);
-  //   } catch (error: any) {
-  //     if (error.response?.status === 404) {
-  //       alert("Paciente não encontrado. Você pode prosseguir com o cadastro.");
-  //     } else {
-  //       console.error("Erro ao verificar paciente existente", error);
-  //       alert("Erro inesperado ao buscar paciente.");
-  //     }
-  //   }
-    
-  // }
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
