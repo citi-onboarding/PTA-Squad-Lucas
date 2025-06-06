@@ -94,8 +94,17 @@ export default function RegisterPage() {
             species: data.species.toUpperCase() 
           });
           console.log("Paciente cadastrado");
+          
+          const respse = await api.get('/patient/search', {
+            params: {
+              name: data.patientName,
+              tutorName: data.tutorName,
+              age: String(data.patientAge),
+              species: data.species
+            }
+          });
 
-          const patientId = response.data.id;
+          const patientId = respse.data.id;
 
           console.log("ID do paciente cadastrado:", patientId);
 
