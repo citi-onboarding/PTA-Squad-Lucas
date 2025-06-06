@@ -14,6 +14,7 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {ModalRegistration} from "@/components"
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -234,7 +235,9 @@ export default function RegisterPage() {
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
             </div>
         </div>
+        <ModalRegistration/>
       </div>
+
     </form>
   );
 }
