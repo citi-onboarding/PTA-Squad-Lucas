@@ -1,4 +1,4 @@
-import Image from "next/Image"
+import Image from "next/image"
 import { CloseButton } from "@/assets";
 import { LeftTopBar } from "@/assets";
 import { Button } from "@/components/ui/button"
