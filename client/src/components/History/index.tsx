@@ -57,19 +57,26 @@ export default function History({ vector, onClick }: HistoryProps) {
         <div className="flex flex-col justify-between gap-4 h-[605px] w-[558px] bg-white border rounded-3xl border-[#D9D9D9] border-dashed p-6 pb-1">
 
           <div className="flex flex-col justify-center gap-5 top-div">
-            {consultasSeparadas.map(card => (
+            {consultasSeparadas.length === 0 ? (
+              <div className="text-center text-gray-500 py-10">
+              Esse paciente não tem consultas anteriores
+              </div>
+            ) : (
+              consultasSeparadas.map(card => (
               <ConsultCardHistory
-              key={card.id}
-              id={card.id}
-              DateTime={card.datetime}
-              typeConsul={card.type}
-              doctorName={card.doctorName}
-              pacientName={card.patient.name}
-              pacientTutorName={card.patient.tutorName}
-              pacientAge={card.patient.age}
-              pacientSpecie={card.patient.species}
-              onClick={onClick}/>))
-            }
+                key={card.id}
+                id={card.id}
+                DateTime={card.datetime}
+                typeConsul={card.type}
+                doctorName={card.doctorName}
+                pacientName={card.patient.name}
+                pacientTutorName={card.patient.tutorName}
+                pacientAge={card.patient.age}
+                pacientSpecie={card.patient.species}
+                onClick={onClick}
+              />
+              ))
+            )}
           </div>
           
           {totalPaginas>1 ?

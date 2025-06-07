@@ -108,8 +108,8 @@ const {
             page1={<div/>}
             page2={<RegisterPage></RegisterPage>}
         />   
-            <div className="flex flex-row px-[100px] justify-between">
-            <div className="w-[624px] flex flex-col gap-4">
+            <div className="flex flex-row px-[5%] py-[2%] justify-between">
+            <div className=" flex flex-col gap-4">
                 <div className="font-bold flex flex-row gap-4 text-[39px] items-center">
                     <button onClick={handleReturn}><Image src={ArrowBack} alt="Botao de voltar" className="w-8 h-8"></Image></button>
                     Detalhes da Consulta
@@ -129,7 +129,9 @@ const {
                     </div>
                 </div>
                 <p className="font-bold">Descrição do Problema:</p>
-                {description}
+                <div className="mb-10">
+                  {description}
+                </div>
                 <div className="flex flex-row h- items-center gap-6">
                     <p className="font-bold">Tipo de consulta:</p>
                     <p style={{ backgroundColor }} className="ml-5 rounded-sm text-[14px] px-2">{tipoCon}</p>

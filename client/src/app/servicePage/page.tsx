@@ -7,19 +7,8 @@ import { Button } from "@/components";
 import {ConsulCard} from "@/components"
 import { 
   lessThen,
-  Sheep,
-  Cat,
-  Pig,
-  Cow,
-  Horse,
-  Dog,
-  downSignal,
-  PlusIcon,
-  Calendar,
 } from '@/assets';
-import consulDetail from "../consulDetail/page";
 import { getAllConsul } from "@/services/ConsulApi";
-import { date } from "zod";
 
 
 
@@ -37,13 +26,6 @@ interface ConsulData  {
       age: number,
       species: string,
     }}
-
-
-// aqui tinha um vetor enorme agora tem que usar a api pra botar esse veto modifique aqui em baixo pra isso
-
-
-
-
 
 export default function ServicePage() {
 
@@ -72,55 +54,69 @@ export default function ServicePage() {
       .filter(card => !inicio || card.datetime>=(inicio))
       .filter(card => !fim || card.datetime<=(fim));
     
-    return (consultasFiltradas.map(card => (
-                <ConsulCard
-                key={card.id}
-                id={card.id}
-                DateTime={card.datetime}
-                typeConsul={card.type}
-                doctorName={card.doctorName}
-                pacientName={card.patient.name}
-                pacientTutorName={card.patient.tutorName}
-                pacientAge={card.patient.age}
-                pacientSpecie={card.patient.species}
-                description={card.description}
-                />
-              )))
+    if (consultasFiltradas.length === 0) {
+      return (
+      <div className="col-span-3 flex items-center justify-center text-lg text-gray-500">
+        Não há consultas agendadas.
+      </div>
+      );
+    }
+    return (
+      consultasFiltradas.map(card => (
+      <ConsulCard
+        key={card.id}
+        id={card.id}
+        DateTime={card.datetime}
+        typeConsul={card.type}
+        doctorName={card.doctorName}
+        pacientName={card.patient.name}
+        pacientTutorName={card.patient.tutorName}
+        pacientAge={card.patient.age}
+        pacientSpecie={card.patient.species}
+        description={card.description}
+      />
+      ))
+    );
   }
 
       
   
   function AplicarFiltro(){
-
-    if (input!=="") {
       setFiltro(input)
-    }
-      
   }
 
 
   function Historico() {
-
     let consultasFiltradas = consultas
-      .filter(card => card.datetime<(dataAtual))
+      .filter(card => card.datetime < (dataAtual))
       .filter(card => card.doctorName.toLowerCase().includes(filtro.toLowerCase()))
-      .filter(card => !inicio || card.datetime>=(inicio))
-      .filter(card => !fim || card.datetime<=(fim));
+      .filter(card => !inicio || card.datetime >= (inicio))
+      .filter(card => !fim || card.datetime <= (fim));
 
-    return (consultasFiltradas.map(card => (
-                <ConsulCard
-                key={card.id}
-                id={card.id}
-                DateTime={card.datetime}
-                typeConsul={card.type}
-                doctorName={card.doctorName}
-                pacientName={card.patient.name}
-                pacientTutorName={card.patient.tutorName}
-                pacientAge={card.patient.age}
-                pacientSpecie={card.patient.species}
-                description = {card.description}
-                />
-              )))
+    if (consultasFiltradas.length === 0) {
+      return (
+        <div className="col-span-3 flex items-center justify-center text-lg text-gray-500">
+          Não há consultas passadas.
+        </div>
+      );
+    }
+
+    return (
+      consultasFiltradas.map(card => (
+        <ConsulCard
+          key={card.id}
+          id={card.id}
+          DateTime={card.datetime}
+          typeConsul={card.type}
+          doctorName={card.doctorName}
+          pacientName={card.patient.name}
+          pacientTutorName={card.patient.tutorName}
+          pacientAge={card.patient.age}
+          pacientSpecie={card.patient.species}
+          description={card.description}
+        />
+      ))
+    );
   }
 
 
@@ -221,7 +217,12 @@ export default function ServicePage() {
 
       {/* Botão final de nova consulta */}
       <div className="flex justify-end mb-20">
-        <Button text="Nova Consulta" onClickAction={() => {}} width={220} icon={<CirclePlus />} />
+        <Button
+          text="Nova Consulta"
+          onClickAction={() => {}}
+          width={220}
+          icon={<CirclePlus />}
+        />
       </div>
 
     </div>

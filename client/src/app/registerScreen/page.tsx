@@ -139,7 +139,7 @@ export default function RegisterPage() {
   
   return (
     <form onSubmit={handleSubmit(handleChange)}>
-      <div className = "pt-12 px-48">
+      <div className = "py-[2%] px-[1%]">
         
         <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={handleReturn}>
           <div className = 'pt-[8px]'>
@@ -296,10 +296,13 @@ export default function RegisterPage() {
           </div>
           {/*Descrição do Problema*/}
             <div className = 'w-full pt-8  flex flex-col gap-3'>
-                <p className='font-bold text-4'>Descrição do Problema</p>        
-                <textarea {...register("description")}  
-                placeholder='Digite aqui...' 
-                className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4 resize-none'/>
+              <p className='font-bold text-4'>Descrição do Problema</p>        
+              <textarea
+  {...register("description")}
+  placeholder='Digite aqui...'
+  className='border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4 resize-none'
+  style={{ resize: 'none' }}
+/>
             </div>
           <div>
             
