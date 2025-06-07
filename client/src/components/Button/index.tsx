@@ -19,7 +19,7 @@ export default function Button ({
     <button type="button"
       onClick={onClickAction}
       style={{backgroundColor: color, width}}
-      className="h-12 rounded-full text-white font-semibold flex items-center justify-center gap-[10px] shadow-md px-10"
+      className="h-12 rounded-full text-white font-semibold flex items-center justify-center gap-[10px] shadow-md px-9 active:opacity-50 transition"
     >
       {icon}{text}
     </button>

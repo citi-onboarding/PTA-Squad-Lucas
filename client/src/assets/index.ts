@@ -11,6 +11,14 @@ import LeftTopBar from "./TopBar/LeftTopBar.svg";
 import RightTopBar from "./TopBar/RightTopBar.svg";
 import PlusIcon from "./Buttons/PlusIcon.svg";
 import CheckIcon from "./Buttons/CheckIcon.svg";
+import Calendar from "./calendar_month.svg";
+import Clock from "./alarm.svg";
+import Paw from "./paw.svg";
+import ArrowRight from "./arrow_right.svg";
+import ArrowBack from "./arrow_back.svg";
+import ArrowForward from "./arrow_forward.svg";
+import CloseButton from "./Botao_close.svg"
+import task_alt from "./task_alt.svg"
 
 export {
     LogoCITi,
@@ -25,5 +33,13 @@ export {
     Cow, 
     Horse,
     Dog,
-    downSignal
+    downSignal,
+    Calendar,
+    Clock,
+    Paw,
+    ArrowRight,
+    ArrowBack,
+    ArrowForward,
+    CloseButton,
+    task_alt,
  };

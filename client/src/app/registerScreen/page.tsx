@@ -14,6 +14,12 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios  from 'axios';
+import { Button } from '@/components'; 
+import api from '@/services/api';
+import { Search } from 'lucide-react';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+import { ModalRegistration } from "@/components"
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -37,23 +43,93 @@ type ConsultForm = {
   species: PatientSpecie;
   patientAge: number;
   consultType: ConsType;
+  doctorName: string;
+  date: Date;
+  time: string;
+  description: string;
 };
 
+
 export default function RegisterPage() {
+  
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   const formSchema = z.object({
     patientName: z.string().min(1, "Nome do paciente é obrigatório"),
     tutorName: z.string().min(1, "Nome do tutor é obrigatório!"),
     species: z.nativeEnum(PatientSpecie, {required_error: "Selecione uma espécie!",}),
     patientAge: z.coerce.number().min(1, "Idade do paciente é obrigatória!"),
-    consultType: z.nativeEnum(ConsType, { required_error: "Tipo da consulta é obrigatório!" })
+    consultType: z.nativeEnum(ConsType, { required_error: "Tipo da consulta é obrigatório!" }),
+    doctorName: z.string().min(1, "Nome do medico é obrigatório"),
+    date: z.date({required_error: "Data da consulta é obrigatória"}),
+    time: z.string().min(1, "Horário da consulta é obrigatório"),
+    description: z.string().min(1, "Descrição do problema é obrigatória"),
   });
   
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
-  const handleChange = (data: ConsultForm) => {
-    console.log("Form data:", data);
+  const handleChange = async (data: ConsultForm) => {
+
+    try {
+      const response = await api.get('/patient/search', {
+        params: {
+          name: data.patientName,
+          tutorName: data.tutorName,
+          species: data.species
+        }
+      });
+
+      const patientId = response.data.id;
+      const datetime = `${data.date}T${data.time}:00.000Z`;
+
+      const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+
+        try {
+          const response = await api.post('/patient', {
+            name: data.patientName.trim(),
+            tutorName: data.tutorName.trim(),
+            age: Number(data.patientAge),
+            species: data.species.toUpperCase() 
+          });
+          
+          const respse = await api.get('/patient/search', {
+            params: {
+              name: data.patientName,
+              tutorName: data.tutorName,
+              species: data.species
+            }
+          });
+
+          const patientId = respse.data.id;
+          const datetime = `${data.date}T${data.time}:00.000Z`;          
+          const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+          
+          setModalOpen(true);
+        } catch (e) {
+          alert("Erro ao cadastrar paciente ou consulta.");
+        }
+      } 
+    }
+
+
   };
+
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
@@ -63,7 +139,7 @@ export default function RegisterPage() {
   
   return (
     <form onSubmit={handleSubmit(handleChange)}>
-      <div className = "pt-12 px-48">
+      <div className = "py-[2%] px-[1%]">
         
         <div className = 'w-72 h-14 flex flex-row cursor-pointer' onClick={handleReturn}>
           <div className = 'pt-[8px]'>
@@ -192,8 +268,56 @@ export default function RegisterPage() {
               </select>
             </div>
           </div>
+          <div className='flex flex-row gap-6'>
+            {/*Médico responsável*/}
+            <div className = 'w-[696px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Médico responsável</p>        
+                <input {...register("doctorName")} 
+                type="text" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+            {/*Data do atendimento*/}
+            <div className = 'w-[390px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Data do atendimento</p>        
+                <input {...register("date")} 
+                type="date" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+            {/*Horário do atendimento*/}
+            <div className = 'w-[390px] pt-8  h-20 flex flex-col gap-3'>
+                <p className='font-bold text-4'>Horário do atendimento</p>        
+                <input {...register("time")} 
+                type="time" 
+                placeholder='Digite aqui...' 
+                className = 'border border-black rounded-xl h-12 placeholder-[#D9D9D9] py-4 pl-4'/>
+            </div>
+          </div>
+          {/*Descrição do Problema*/}
+            <div className = 'w-full pt-8  flex flex-col gap-3'>
+              <p className='font-bold text-4'>Descrição do Problema</p>        
+              <textarea
+  {...register("description")}
+  placeholder='Digite aqui...'
+  className='border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4 resize-none'
+  style={{ resize: 'none' }}
+/>
+            </div>
+          <div>
+            
+          </div>
         </div>
+        <button
+          type="submit"
+          className="bg-[#50E678] text-white font-bold text-base w-[205px] h-12 rounded-full shadow-md hover:bg-[#50E678] hover:opacity-80 active:opacity-50 transition flex items-center justify-center mt-10 ml-auto"
+          >
+          Finalizar Cadastro
+        </button>
+        <ModalRegistration
+            open={modalOpen} setOpen={setModalOpen}/>
       </div>
+
     </form>
   );
 }
