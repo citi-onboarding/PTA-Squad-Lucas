@@ -14,6 +14,12 @@ import {
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios  from 'axios';
+import { Button } from '@/components'; 
+import api from '@/services/api';
+import { Search } from 'lucide-react';
+import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.shared-runtime';
+import { ModalRegistration } from "@/components"
 
 enum PatientSpecie {
   SHEEP = "SHEEP",
@@ -43,7 +49,11 @@ type ConsultForm = {
   description: string;
 };
 
+
 export default function RegisterPage() {
+  
+  const [modalOpen, setModalOpen] = useState(false);
+
 
   const formSchema = z.object({
     patientName: z.string().min(1, "Nome do paciente é obrigatório"),
@@ -57,11 +67,69 @@ export default function RegisterPage() {
     description: z.string().min(1, "Descrição do problema é obrigatória"),
   });
   
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof formSchema>> ({resolver: zodResolver(formSchema)});  
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ConsultForm>();  
   
-  const handleChange = (data: ConsultForm) => {
-    console.log("Form data:", data);
+  const handleChange = async (data: ConsultForm) => {
+
+    try {
+      const response = await api.get('/patient/search', {
+        params: {
+          name: data.patientName,
+          tutorName: data.tutorName,
+          species: data.species
+        }
+      });
+
+      const patientId = response.data.id;
+      const datetime = `${data.date}T${data.time}:00.000Z`;
+
+      const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+
+        try {
+          const response = await api.post('/patient', {
+            name: data.patientName.trim(),
+            tutorName: data.tutorName.trim(),
+            age: Number(data.patientAge),
+            species: data.species.toUpperCase() 
+          });
+          
+          const respse = await api.get('/patient/search', {
+            params: {
+              name: data.patientName,
+              tutorName: data.tutorName,
+              species: data.species
+            }
+          });
+
+          const patientId = respse.data.id;
+          const datetime = `${data.date}T${data.time}:00.000Z`;          
+          const consultResponse = await api.post('/consultation', {
+            datetime: datetime,
+            type: data.consultType.toUpperCase(),
+            description: data.description.trim(),
+            doctorName: data.doctorName.trim(),
+            patientId: patientId
+          });
+          
+          setModalOpen(true);
+        } catch (e) {
+          alert("Erro ao cadastrar paciente ou consulta.");
+        }
+      } 
+    }
+
+
   };
+
  
   const [selectedSpecies, setSelectedSpecies] = useState<PatientSpecie | null>(null);
 
@@ -233,8 +301,20 @@ export default function RegisterPage() {
                 placeholder='Digite aqui...' 
                 className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4 resize-none'/>
             </div>
+          <div>
+            
+          </div>
         </div>
+        <button
+          type="submit"
+          className="bg-[#50E678] text-white font-bold text-base w-[205px] h-12 rounded-full shadow-md hover:bg-[#50E678] hover:opacity-80 active:opacity-50 transition flex items-center justify-center mt-10 ml-auto"
+          >
+          Finalizar Cadastro
+        </button>
+        <ModalRegistration
+            open={modalOpen} setOpen={setModalOpen}/>
       </div>
+
     </form>
   );
 }

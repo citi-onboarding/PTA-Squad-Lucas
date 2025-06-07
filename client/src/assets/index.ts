@@ -17,6 +17,7 @@ import Paw from "./paw.svg";
 import ArrowRight from "./arrow_right.svg";
 import ArrowBack from "./arrow_back.svg";
 import ArrowForward from "./arrow_forward.svg";
+import CloseButton from "./Botao_close.svg"
 import task_alt from "./task_alt.svg"
 
 export {
@@ -39,5 +40,6 @@ export {
     ArrowRight,
     ArrowBack,
     ArrowForward,
+    CloseButton,
     task_alt,
  };
