@@ -7,8 +7,8 @@ import {Sheep,
     Clock,
     Paw,
   } from "@/assets/index"
-import { time } from "console";
 import Image from "next/image";
+import { useRouter } from "next/navigation"
 
 interface ConsulCard {
   id: number;
@@ -19,7 +19,7 @@ interface ConsulCard {
   pacientTutorName: string;
   pacientAge: number;
   pacientSpecie: string;
-  onClick: () => void; //depois inserir a implementação da consulta aqui
+  description: string;
 }
 
 export default function consultCard({
@@ -31,11 +31,18 @@ export default function consultCard({
   pacientName,
   pacientAge,
   pacientSpecie,
-  onClick,
+  description,
 }: ConsulCard){
-
+  const router = useRouter()
   const consultationDate = new Date(DateTime)
   const nowDate = new Date()
+
+  const handleClick = () => {
+    const query = new URLSearchParams({
+      id: id.toString(),
+    }).toString();
+    router.push(`/consulDetail?${query}`);
+  };
 
   const backgroundColor =
     consultationDate < nowDate? "#F0F0F0" :
@@ -48,9 +55,9 @@ export default function consultCard({
 
 
 
-  const sMonth =  DateTime.slice(5, 7);
-  const sDay =DateTime.slice(8, 10);
-  const sTime = DateTime.slice(11, 16); // "fatia mais significativa da hora"
+  const sMonth = DateTime.slice(5, 7);
+  const sDay =  DateTime.slice(8, 10);
+  const sTime = DateTime.slice(11, 16);
   
 
   const tipoCon = {
@@ -71,23 +78,23 @@ export default function consultCard({
 
   return (
     <button type="button"
-      onClick={onClick}
+      onClick={handleClick}
       style={{backgroundColor}}
-      className="w-[495px] h-[135px] rounded-xl px-6 py-4 flex justify-between items-center"
+      className="w-[396px] h-[108px] rounded-xl px-6 py-4 flex justify-between items-center"
     >
       <div
-      className="w-[51px] h-[90px] px-[6px] py-[12px] rounded-[4px] bg-white font-bold text-sm flex flex-col justfy-center items-center">
+      className="w-[40px] h-[72px] px-[6px] py-[12px] rounded-[4px] bg-white font-bold text-sm flex flex-col justfy-center items-center text-[12px]">
         <Image src={Clock} alt="imagem de um relógio"
-        className="w-5 h-5"
+        className="w-4 h-4"
         ></Image>
         <p>{sDay}/{sMonth}</p>
         <p>{sTime}</p>
       </div>
-      <div className="flex"><p className="font-semibold">{pacientName}</p>/<p>{pacientTutorName}</p></div>
-      <p>{doctorName}</p>
-      <div className="flex flex-col justify-center items-center w-[100px] l-[100px] gap-2">
-        <Image src={Icon} alt="imagem representativa do pet" className="w-[70px] h-[70px]" />
-        <p className="flex justify-center items-center w-full h-[25px] bg-white  rounded-sm text-xs"> {tipoCon}</p>
+      <div className="flex text-[12px]"><p className="font-semibold">{pacientName}</p>/<p>{pacientTutorName}</p></div>
+      <div className="text-[12px]">{doctorName}</div>
+      <div className="flex flex-col justify-center items-center w-[90px] h-[86px] gap-2">
+        <Image src={Icon} alt="imagem representativa do pet" className="w-[56px] h-[56px]" />
+        <p className="flex justify-center items-center w-full h-[30px] bg-white  rounded-sm text-[10px]"> {tipoCon}</p>
       </div>
     </button>
   )

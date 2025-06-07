@@ -299,7 +299,7 @@ export default function RegisterPage() {
                 <p className='font-bold text-4'>Descrição do Problema</p>        
                 <textarea {...register("description")}  
                 placeholder='Digite aqui...' 
-                className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4'/>
+                className = 'border border-black rounded-xl h-[134px] placeholder-[#D9D9D9] py-4 pl-4 resize-none'/>
             </div>
           <div>
             
